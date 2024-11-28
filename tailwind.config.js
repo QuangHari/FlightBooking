@@ -5,7 +5,14 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'], 
+      },
+      fontSize: {
+        sm: '14px', 
+      },
+    },
   },
   plugins: [],
 }
