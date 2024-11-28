@@ -4,7 +4,7 @@
         THis is home page
     </div>
     <div>
-      <router-link to="/">Go to Home</router-link></div>
+      <router-link to="/">Go to Home  <i class="fas fa-home"></i> </router-link></div>
     <div>    
       <router-link to="/Author">Go to Login</router-link>
     </div>
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 export default {
-  name: 'Author',
+  name: 'Home',
 };
 </script>
 

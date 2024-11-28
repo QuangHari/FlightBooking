@@ -5,7 +5,10 @@
     </div>
 
     <div>
-      <router-link to="/">Go to Home</router-link></div>
+      <router-link to="/">Go to Home  <i class="fas fa-home"></i> </router-link></div>
+      
+      
+ 
     <div>    
       <router-link to="/Author">Go to Login</router-link>
     </div>
