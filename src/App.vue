@@ -1,6 +1,3 @@
 <template>
-
-  <div id="app">
-    hải
-  </div>
+  <router-view/>
 </template>
