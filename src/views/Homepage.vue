@@ -12,6 +12,16 @@
 
 <script lang="ts">
 export default {
-  name: 'Home',
+  name: 'Author',
 };
 </script>
+
+<script setup lang="ts">
+
+
+</script>
+
+
+<style scoped>
+
+</style>
