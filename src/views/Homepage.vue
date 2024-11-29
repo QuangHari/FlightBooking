@@ -1,5 +1,5 @@
 <template>
-    <NavBar />
+    <Navbar />
     <div>
       <div class="flex justify-center overflow-hidden">
         <img src="../assets/banner2.jpg" alt="mainbanner" class="w-full h-auto transform transition-transform duration-500 hover:scale-110" />
@@ -17,22 +17,22 @@
     <div class="flex flex-wrap justify-center items-start gap-4 bg-gray-100 p-6">
       <Card 
       class="w-[300px] h-[300px]"
-      imageSrc="@/assets/Card1.jpg"
+      :imageSrc="Card1"
       title="Explore our offers"
       subtitle="Find great fares"/>
       <Card 
       class="w-[300px] h-[300px]"
-      imageSrc="@/assets/Card2.jpg"
+      :imageSrc="Card2"
       title="Stop over in Ha Noi from $25 per person"
       subtitle="Discover more"/>
       <Card 
       class="w-[300px] h-[300px]"
-      imageSrc="@/assets/Card3.jpg"
+      :imageSrc="Card3"
       title="Get your privilege club credit card"
       subtitle="Learn more"/>
       <Card
       class="w-[300px] h-[300px]"
-      imageSrc="@/assets/Card4.jpg"
+      :imageSrc="Card4"
       title="Explore our offers"
       subtitle="Find great fares"
       />
@@ -45,11 +45,19 @@ export default {
   name: 'HomePage',
 };
 </script>
+
+
 <script setup lang = "ts">
+  import Navbar from '../components/shared/Navbar.vue';
   import FlightSearch from '../components/Homepage/FlightSearch.vue';
   import Card from '../components/Homepage/CardItem.vue';
   import FooterBar from '../components/shared/FooterBar.vue';
-  import NavBar from '../components/shared/NavBar.vue';
+
+  import Card1 from '@/assets/Card1.jpg';
+  import Card2 from '@/assets/Card2.jpg';
+  import Card3 from '@/assets/Card3.jpg';
+  import Card4 from '@/assets/Card4.jpg';
+  
 </script>
 <style scoped>
 </style>

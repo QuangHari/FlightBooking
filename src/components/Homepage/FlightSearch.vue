@@ -453,6 +453,8 @@ export default {
     name: "FlightSearch",
   };
 </script>
+
+
 <style scoped>
 input::placeholder {
   color: theme('colors.gray.400');

@@ -84,13 +84,15 @@
   
   <script setup lang ="ts">
   import { ref } from 'vue'
-  import { Search, User2, Menu, X } from 'lucide-vue-next'
+ 
   
   const navigationItems = ['Explore', 'Book', 'Experience', 'Privilege Club']
   const isMenuOpen = ref(false)
   </script>
+
+
   <script lang = "ts">
     export default {
-    name: "NavBar",
+    name: "Navbar",
   };
   </script>
