@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 // Import các component
-import Home from '../views/Homepage.vue';
-import Author from '../views/Author.vue';
+import HomePage from '../views/Homepage.vue';
+import AuthorPage from '../views/Author.vue';
 
 const routes = [
   {
     path: '/',
-    component: Home,
+    component: HomePage,
   },
   {
     path: '/author',
-    component: Author,
+    component: AuthorPage,
   },
 ];
 

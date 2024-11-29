@@ -10,12 +10,12 @@
       
  
     <div>    
-      <router-link to="/Author">Go to Login</router-link>
+      <router-link to="/Author">Go to Login<i class="fa-solid fa-house"></i></router-link>
     </div>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'Author',
+  name: 'AuthorPage',
 };
 </script>
