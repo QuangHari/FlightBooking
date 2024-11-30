@@ -54,9 +54,9 @@
       <!-- Awards Section -->
       <div class="mt-10 border-t border-gray-200 pt-6 text-center">
         <div class="flex justify-center items-center gap-4">
-          <img src="" alt="Award" class="h-12">
-          <img src="" alt="Award" class="h-12">
-          <img src="" alt="Award" class="h-12">
+          <img src="../../assets/award1.svg" alt="Award" class="h-12">
+          <img src="../../assets/award2.svg" alt="Award" class="h-12">
+          <img src="../../assets/award3.svg" alt="Award" class="h-12">
         </div>
         <p class="text-gray-600 text-sm mt-4">World’s Best Airline</p>
       </div>

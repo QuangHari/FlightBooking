@@ -5,11 +5,11 @@
           <!-- Left section: Logos -->
           <div class="flex items-center gap-6">
             <a href="/" class="flex-shrink-0">
-              <img src="" alt="QAirline" class="h-10" />
+              <img src="../../assets/MainLogo_shadow.png" alt="QAirline" class="h-10" />
             </a>
             <div class="h-8 w-px bg-gray-200"></div>
             <a href="/" class="flex-shrink-0">
-              <img src="" alt="OneWorld" class="h-7" />
+              <img src="../../assets/Oneworld_logo.svg.png" alt="OneWorld" class="h-7" />
             </a>
           </div>
   
@@ -35,7 +35,7 @@
             </button>
             <div class="flex items-center gap-2 text-gray-700 hover:text-purple-700 cursor-pointer">
               <img 
-                src="" 
+                src="../../assets/USflag.png" 
                 alt="US Flag" 
                 class="h-5 w-7 rounded"
               />

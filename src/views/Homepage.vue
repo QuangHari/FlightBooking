@@ -2,7 +2,7 @@
     <Navbar />
     <div>
       <div class="flex justify-center overflow-hidden">
-        <img src="../assets/banner2.jpg" alt="mainbanner" class="w-full h-auto transform transition-transform duration-500 hover:scale-110" />
+        <img src="../assets/banner1.jpg" alt="mainbanner" class="w-full transform transition-transform duration-500 hover:scale-110" />
       </div>
       <FlightSearch />
     </div>
@@ -33,8 +33,8 @@
       <Card
       class="w-[300px] h-[300px]"
       :imageSrc="Card4"
-      title="Explore our offers"
-      subtitle="Find great fares"
+      title="Explore more destinations"
+      subtitle="See our network"
       />
     </div>
     <FooterBar/>
@@ -53,10 +53,10 @@ export default {
   import Card from '../components/Homepage/CardItem.vue';
   import FooterBar from '../components/shared/FooterBar.vue';
 
-  import Card1 from '@/assets/Card1.jpg';
-  import Card2 from '@/assets/Card2.jpg';
-  import Card3 from '@/assets/Card3.jpg';
-  import Card4 from '@/assets/Card4.jpg';
+  import Card1 from '@/assets/banner2.jpg';
+  import Card2 from '@/assets/Chua1cot.jpg';
+  import Card3 from '@/assets/CoHN.jpg';
+  import Card4 from '@/assets/CauTheHuc.jpg';
   
 </script>
 <style scoped>
