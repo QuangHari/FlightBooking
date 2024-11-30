@@ -12,12 +12,14 @@
         </div>
       </div>
     </div>
+    <FooterBar/>
   </template>
   
   <script setup lang="ts">
   import { ref } from 'vue'
   import Navbar from '../components/shared/Navbar.vue'
   import FlightCard from '../components/Flightspage/FlightCard.vue'
+  import FooterBar from '@/components/shared/FooterBar.vue';
   
   interface Flight {
     departureTime: string
