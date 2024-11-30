@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // Import các component
 import HomePage from '../views/Homepage.vue';
 import AuthorPage from '../views/Author.vue';
+import Flights from '../views/Flights.vue';
 
 const routes = [
   {
@@ -13,6 +14,10 @@ const routes = [
     path: '/author',
     component: AuthorPage,
   },
+  {
+    path: '/flights',
+    component: Flights,
+  }
 ];
 
 const router = createRouter({

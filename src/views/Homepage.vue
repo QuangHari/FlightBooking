@@ -6,7 +6,7 @@
       </div>
       <FlightSearch />
     </div>
-    <div class="bg-gray-100 px-6 py-4">
+    <div class="bg-[#f8f8f8] px-6 py-4">
       <div class="text-4xl font-light text-gray-800 mb-2">
         Start planning your next trip
       </div>

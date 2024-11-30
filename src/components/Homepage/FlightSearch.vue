@@ -1,5 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gray-50 p-4">
+  <div class="min-h-screen bg-gray-50 p-4 relative">
+    <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
+      <source src="../../assets/HNfootage2.mov" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
     <div class="max-w-7xl mx-auto bg-white rounded-3xl shadow-2xl relative">
       <!-- Navigation Tabs -->
       <nav class="grid grid-cols-4 border-b">
@@ -9,8 +13,10 @@
           class="flex items-center justify-center gap-2 py-6 px-4 text-lg transition-colors"
           :class="[
             activeTab === index 
-              ? 'bg-purple-50 text-purple-700' 
-              : 'hover:bg-gray-50 text-gray-700'
+              ? 'bg-[#d0c5a4] text-[#4f4939]' 
+              : 'hover:bg-gray-50 text-gray-700',
+            index === 0 ? 'rounded-tl-3xl' : '',
+            index === tabs.length - 1 ? 'rounded-tr-3xl' : ''
           ]"
           @click="activeTab = index"
         >
@@ -28,11 +34,11 @@
             class="flex items-center gap-2 cursor-pointer"
           >
             <div class="relative flex items-center">
-              <input
+                <input
                 type="radio"
                 :value="type"
                 v-model="selectedFlightType"
-                class="w-5 h-5 border-2 border-gray-300 rounded-full appearance-none cursor-pointer checked:border-purple-700 checked:border-8 transition-all"
+                class="w-5 h-5 border-2 border-gray-300 rounded-full appearance-none cursor-pointer checked:border-[#4f4939] checked:border-8 transition-all"
               />
             </div>
             <span class="text-lg text-gray-700">{{ type }}</span>
@@ -99,7 +105,7 @@
             <div 
               v-if="isPassengersOpen"
               class="fixed inset-x-0 top-auto bottom-0 md:absolute md:top-full md:left-0 md:bottom-auto mt-2 w-full md:w-80 bg-white rounded-lg shadow-lg border p-4 z-50"
-            >
+            @click.stop>
               <div class="space-y-4">
                 <div class="flex items-center justify-between">
                   <span>Passengers</span>
@@ -135,12 +141,12 @@
           </div>
 
           <div class="flex items-center gap-4">
-            <button class="text-purple-700 hover:text-purple-800 font-medium">
+            <button class="text-[#4f4939] hover:text-[#4a4433] font-medium">
               + Add promo code
             </button>
-            <button class="bg-purple-700 hover:bg-purple-800 text-white px-8 py-3 rounded-full font-medium">
+            <router-link to="/flights" class="bg-[#4f4939] hover:bg-[#4a4433] text-white px-8 py-3 rounded-full font-medium">
               Search flights
-            </button>
+            </router-link>
           </div>
         </div>
       </div>
@@ -156,7 +162,7 @@
               class="px-1 py-4 border-b-2 transition-colors"
               :class="[
                 stopoverTab === index 
-                  ? 'border-purple-700 text-purple-700' 
+                  ? 'border-[#4f4939] text-[#4f4939]' 
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               ]"
               @click="stopoverTab = index"
@@ -223,7 +229,7 @@
                   type="radio"
                   value="departure"
                   v-model="stopoverType"
-                  class="w-5 h-5 border-2 border-gray-300 rounded-full appearance-none cursor-pointer checked:border-purple-700 checked:border-8 transition-all"
+                  class="w-5 h-5 border-2 border-gray-300 rounded-full appearance-none cursor-pointer checked:border-[#4f4939] checked:border-8 transition-all"
                 />
                 <span>Departure</span>
               </label>
@@ -232,7 +238,7 @@
                   type="radio"
                   value="return"
                   v-model="stopoverType"
-                  class="w-5 h-5 border-2 border-gray-300 rounded-full appearance-none cursor-pointer checked:border-purple-700 checked:border-8 transition-all"
+                  class="w-5 h-5 border-2 border-gray-300 rounded-full appearance-none cursor-pointer checked:border-[#4f4939] checked:border-8 transition-all"
                 />
                 <span>Return</span>
               </label>
@@ -259,12 +265,12 @@
           </div>
 
           <div class="flex items-center justify-end gap-4">
-            <button class="text-purple-700 hover:text-purple-800 font-medium">
+            <button class="text-[#4f4939] hover:text-[#4a4433] font-medium">
               + Add promo code
             </button>
-            <button class="bg-purple-700 hover:bg-purple-800 text-white px-8 py-3 rounded-full font-medium">
+            <router-link to="/flights" class="bg-[#4f4939] hover:bg-[#4a4433] text-white px-8 py-3 rounded-full font-medium">
               Search flights
-            </button>
+            </router-link>
           </div>
         </div>
       </div>
@@ -280,7 +286,7 @@
               class="px-1 py-4 border-b-2 transition-colors"
               :class="[
                 manageTab === index 
-                  ? 'border-purple-700 text-purple-700' 
+                  ? 'border-[#4f4939] text-[#4f4939]' 
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               ]"
               @click="manageTab = index"
@@ -310,7 +316,7 @@
         </div>
 
         <div class="mt-6 flex justify-end">
-          <button class="bg-purple-700 hover:bg-purple-800 text-white px-8 py-3 rounded-full font-medium">
+          <button class="bg-[#4f4939] hover:bg-[#4a4433] text-white px-8 py-3 rounded-full font-medium">
             Retrieve booking
           </button>
         </div>
@@ -327,7 +333,7 @@
               class="px-1 py-4 border-b-2 transition-colors"
               :class="[
                 statusTab === index 
-                  ? 'border-purple-700 text-purple-700' 
+                  ? 'border-[#4f4939] text-[#4f4939]' 
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               ]"
               @click="statusTab = index"
@@ -383,7 +389,7 @@
         </div>
 
         <div class="mt-6 flex justify-end">
-          <button class="bg-purple-700 hover:bg-purple-800 text-white px-8 py-3 rounded-full font-medium">
+          <button class="bg-[#4f4939] hover:bg-[#4a4433] text-white px-8 py-3 rounded-full font-medium">
             Search
           </button>
         </div>
