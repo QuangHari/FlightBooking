@@ -19,7 +19,7 @@
               v-for="item in navigationItems" 
               :key="item"
               href="#"
-                class="text-gray-700 hover:text-[#4f4939] font-medium transition-colors"
+                class="text-gray-700 hover:text-[#d0c5a4] font-medium transition-colors"
             >
               {{ item }}
             </a>
@@ -27,13 +27,13 @@
   
           <!-- Right section: Actions -->
           <div class="flex items-center gap-6">
-            <a href="#" class="text-gray-700 hover:text-[#4f4939] font-medium hidden sm:block">
+            <a href="#" class="text-gray-700 hover:text-[#d0c5a4] font-medium hidden sm:block">
               Help
             </a>
-            <button class="text-gray-700 hover:text-[#4f4939]">
+            <button class="text-gray-700 hover:text-[#d0c5a4]">
               <Search class="w-5 h-5" />
             </button>
-            <div class="flex items-center gap-2 text-gray-700 hover:text-[#4f4939] cursor-pointer">
+            <div class="flex items-center gap-2 text-gray-700 hover:text-[#d0c5a4] cursor-pointer">
               <img 
                 src="../../assets/USflag.png" 
                 alt="US Flag" 
@@ -44,8 +44,8 @@
             <div class="h-8 w-px bg-gray-200 hidden sm:block"></div>
             <div class="flex items-center gap-2">
               <User2 class="w-5 h-5 text-gray-700" />
-                <a href="#" class="text-gray-700 hover:text-[#4f4939] font-medium whitespace-nowrap hidden sm:block">
-                Log in | Sign up
+              <a href="/author" class="text-gray-700 hover:text-[#d0c5a4] font-medium whitespace-nowrap hidden sm:block">
+              Sign in | Sign up
               </a>
             </div>
           </div>
@@ -56,7 +56,7 @@
       <div class="lg:hidden absolute right-4 top-6">
         <button 
           @click="isMenuOpen = !isMenuOpen"
-            class="text-gray-700 hover:text-[#4f4939]"
+            class="text-gray-700 hover:text-[#d0c5a4]"
         >
           <Menu v-if="!isMenuOpen" class="w-6 h-6" />
           <X v-else class="w-6 h-6" />
@@ -73,7 +73,7 @@
             v-for="item in navigationItems"
             :key="item"
             href="#"
-            class="block px-3 py-2 text-gray-700 hover:text-[#4f4939] font-medium"
+            class="block px-3 py-2 text-gray-700 hover:text-[#d0c5a4] font-medium"
           >
             {{ item }}
           </a>

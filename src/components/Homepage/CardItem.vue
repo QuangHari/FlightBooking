@@ -10,7 +10,9 @@
       <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ title }}</h2>
       <hr class="border-t border-gray-200 my-2 absolute bottom-8 left-4 right-4">
       <div class="flex items-center justify-between text-gray-600 font-medium">
-        <span class="absolute bottom-4">{{ subtitle }}</span>
+        <button class="absolute bottom-4 bg-transparent text-gray-600 font-medium py-1 px-2 rounded hover:text-[#d0c5a4]">
+          {{ subtitle }}
+        </button>
         <span class="absolute bottom-4 right-4">&#x2794;</span>
       </div>
     </div>

@@ -31,7 +31,7 @@
       <!-- Flight Details Button -->
     <button 
       @click="showDetails = true"
-      class="text-sm text-gray-900 hover:text-[#977b6d] font-medium mb-6 underline"
+      class="text-sm text-gray-900 hover:text-[#d0c5a4] font-medium mb-6 underline"
     >
       Flight details
     </button>
@@ -145,7 +145,7 @@
               </div>
             </div>
   
-            <button class="w-full bg-[#4f4939] hover:bg-[#4a4433] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium">
+            <button class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium">
               Select fare
             </button>
   
@@ -164,7 +164,7 @@
             </div>
   
             <div class="mt-8 pt-6 border-t text-center">
-              <a href="#" class="text-[#4f4939] hover:text-[#4a4433] font-medium text-lg">
+              <a href="#" class="text-[#4f4939] hover:text-[#d0c5a4] font-medium text-lg">
                 Online-exclusive benefits
               </a>
             </div>

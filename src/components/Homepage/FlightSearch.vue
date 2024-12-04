@@ -51,7 +51,7 @@
             <label class="text-sm text-gray-500">From</label>
             <input 
               type="text" 
-              class="w-full p-3 text-lg border-0 focus:ring-0"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
               placeholder="City or airport"
             />
           </div>
@@ -64,7 +64,7 @@
             <label class="text-sm text-gray-500">To</label>
             <input 
               type="text" 
-              class="w-full p-3 text-lg border-0 focus:ring-0"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
               placeholder="City or airport"
             />
           </div>
@@ -141,10 +141,10 @@
           </div>
 
           <div class="flex items-center gap-4">
-            <button class="text-[#4f4939] hover:text-[#4a4433] font-medium">
+            <button class="text-[#4f4939] hover:text-[#d0c5a4] font-medium">
               + Add promo code
             </button>
-            <router-link to="/flights" class="bg-[#4f4939] hover:bg-[#4a4433] text-white px-8 py-3 rounded-full font-medium">
+            <router-link to="/flights" class="bg-[#4f4939] hover:bg-[#d0c5a4] text-white px-8 py-3 rounded-full font-medium">
               Search flights
             </router-link>
           </div>
@@ -183,7 +183,7 @@
               <label class="text-sm text-gray-500">From</label>
               <input 
                 type="text" 
-                class="w-full p-3 text-lg border rounded-lg"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
                 placeholder="City or airport"
               />
             </div>
@@ -196,7 +196,7 @@
               <label class="text-sm text-gray-500">To</label>
               <input 
                 type="text" 
-                class="w-full p-3 text-lg border rounded-lg"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
                 placeholder="City or airport"
               />
             </div>
@@ -265,10 +265,10 @@
           </div>
 
           <div class="flex items-center justify-end gap-4">
-            <button class="text-[#4f4939] hover:text-[#4a4433] font-medium">
+            <button class="text-[#4f4939] hover:text-[#d0c5a4] font-medium">
               + Add promo code
             </button>
-            <router-link to="/flights" class="bg-[#4f4939] hover:bg-[#4a4433] text-white px-8 py-3 rounded-full font-medium">
+            <router-link to="/flights" class="bg-[#4f4939] hover:bg-[#d0c5a4] text-white px-8 py-3 rounded-full font-medium">
               Search flights
             </router-link>
           </div>
@@ -301,7 +301,7 @@
             <label class="text-sm text-gray-500">Booking reference</label>
             <input 
               type="text" 
-              class="w-full p-3 text-lg border rounded-lg"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
               placeholder="Enter booking reference"
             />
           </div>
@@ -309,14 +309,14 @@
             <label class="text-sm text-gray-500">Last name</label>
             <input 
               type="text" 
-              class="w-full p-3 text-lg border rounded-lg"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
               placeholder="Enter last name"
             />
           </div>
         </div>
 
         <div class="mt-6 flex justify-end">
-          <button class="bg-[#4f4939] hover:bg-[#4a4433] text-white px-8 py-3 rounded-full font-medium">
+          <button class="bg-[#4f4939] hover:bg-[#d0c5a4] text-white px-8 py-3 rounded-full font-medium">
             Retrieve booking
           </button>
         </div>
@@ -348,7 +348,7 @@
             <label class="text-sm text-gray-500">From</label>
             <input 
               type="text" 
-              class="w-full p-3 text-lg border rounded-lg"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
               placeholder="City or airport"
             />
           </div>
@@ -356,7 +356,7 @@
             <label class="text-sm text-gray-500">To</label>
             <input 
               type="text" 
-              class="w-full p-3 text-lg border rounded-lg"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
               placeholder="City or airport"
             />
           </div>
@@ -374,7 +374,7 @@
           <div class="space-y-1">
             <label class="text-sm text-gray-500">Flight number</label>
             <input 
-              class="w-full p-3 text-lg border rounded-lg"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
               placeholder="Enter flight number"
             />
           </div>
@@ -389,7 +389,7 @@
         </div>
 
         <div class="mt-6 flex justify-end">
-          <button class="bg-[#4f4939] hover:bg-[#4a4433] text-white px-8 py-3 rounded-full font-medium">
+          <button class="bg-[#4f4939] hover:bg-[#d0c5a4] text-white px-8 py-3 rounded-full font-medium">
             Search
           </button>
         </div>
