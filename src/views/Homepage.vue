@@ -2,7 +2,7 @@
     <Navbar />
     <div>
       <div class="flex justify-center overflow-hidden">
-        <img src="../assets/banner1.jpg" alt="mainbanner" class="w-full transform transition-transform duration-500 hover:scale-110" />
+        <img src="../assets/bannerVIP.jpg" alt="mainbanner" class="w-full transform transition-transform duration-500 hover:scale-110" />
       </div>
       <FlightSearch />
     </div>

@@ -54,8 +54,8 @@
       flightNumber: "QR703",
       aircraft: "Boeing 777-300ER",
       operator: "QAirline",
-      economyPrice: 3960,
-      businessPrice: 13290
+      economyPrice: 3960000,
+      businessPrice: 13290000
     },
     {
       departureTime: "09:15",
@@ -71,8 +71,8 @@
       flightNumber: "QR001",
       aircraft: "Airbus A350-1000",
       operator: "QAirline",
-      economyPrice: 2800,
-      businessPrice: 9500
+      economyPrice: 2800000,
+      businessPrice: 9500000
     },
     {
       departureTime: "22:40",
@@ -88,8 +88,8 @@
       flightNumber: "QR908",
       aircraft: "Boeing 777-300ER",
       operator: "QAirline",
-      economyPrice: 4200,
-      businessPrice: 14500
+      economyPrice: 4200000,
+      businessPrice: 14500000
     }
   ])
   </script>

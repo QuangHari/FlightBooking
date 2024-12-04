@@ -44,7 +44,7 @@
         >
           <div class="text-sm text-gray-600 mb-1">Economy</div>
           <div class="text-lg md:text-2xl font-semibold">
-            QAR {{ economyPrice.toLocaleString() }}
+            VND {{ economyPrice.toLocaleString() }}
           </div>
         </button>
         <button 
@@ -53,7 +53,7 @@
         >
           <div class="text-sm text-gray-600 mb-1">Business</div>
           <div class="text-lg md:text-2xl font-semibold">
-            QAR {{ businessPrice.toLocaleString() }}
+            VND {{ businessPrice.toLocaleString() }}
           </div>
         </button>
       </div>
@@ -139,7 +139,7 @@
               <div class="flex justify-between items-baseline">
                 <div class="text-sm text-gray-600">Total for all passengers</div>
                 <div class="flex items-baseline gap-2">
-                  <span class="text-lg text-gray-600">QAR</span>
+                  <span class="text-lg text-gray-600">VND</span>
                   <span class="text-4xl font-light">{{ getCurrentFare.price.toLocaleString() }}</span>
                 </div>
               </div>

@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen bg-gray-50 p-4 relative">
-    <!-- <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
+    <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
       <source src="../../assets/HNfootage2.mov" type="video/mp4">
       Your browser does not support the video tag.
-    </video> -->
+    </video>
     <div class="max-w-7xl mx-auto bg-white rounded-3xl shadow-2xl relative">
       <!-- Navigation Tabs -->
       <nav class="grid grid-cols-4 border-b">
