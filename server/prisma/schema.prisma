@@ -1,0 +1,78 @@
+// This is your Prisma schema file for the Flight Booking project.
+
+// Generator for Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Flight {
+  FlightID              Int       @id @default(autoincrement())
+  FlightNumber          String    @unique
+  DepartureDateTime     DateTime
+  ArrivalDateTime       DateTime
+  OriginAirportCode     String
+  DestinationAirportCode String
+  AvailableSeats        Int
+  OriginAirport         Airport   @relation("OriginAirportRelation", fields: [OriginAirportCode], references: [AirportCode])
+  DestinationAirport    Airport   @relation("DestinationAirportRelation", fields: [DestinationAirportCode], references: [AirportCode])
+  Bookings              Booking[]
+  Seats                 Seat[]
+}
+
+model Passenger {
+  PassengerID     Int       @id @default(autoincrement())
+  FirstName       String
+  LastName        String
+  Email           String    @unique
+  PassportNumber  String
+  Password        String
+  PhoneNumber     String?
+  DateOfBirth     DateTime?
+
+  Booking         Booking[]
+}
+
+
+model Airport {
+  AirportCode   String   @id
+  AirportName   String
+  Location      String
+  Facilities    String?
+
+  FlightsOrigin      Flight[] @relation("OriginAirportRelation")
+  FlightsDestination Flight[] @relation("DestinationAirportRelation")
+}
+
+model Airline {
+  AirlineID      Int      @id @default(autoincrement())
+  AirlineName    String
+  ContactNumber  String
+  OperatingRegion String
+}
+
+model Booking {
+  BookingID     Int       @id @default(autoincrement())
+  FlightID      Int
+  PassengerID   Int
+  PaymentStatus String
+  Flight        Flight     @relation(fields: [FlightID], references: [FlightID])
+  Passenger     Passenger  @relation(fields: [PassengerID], references: [PassengerID])
+  Seats         Seat[]
+}
+
+
+
+model Seat {
+  SeatID        Int       @id @default(autoincrement())
+  SeatNumber    String
+  IsBooked      Boolean   @default(false)
+  FlightID      Int
+  BookingID     Int?
+  Booking       Booking?  @relation(fields: [BookingID], references: [BookingID])
+  Flight        Flight    @relation(fields: [FlightID], references: [FlightID])
+}
