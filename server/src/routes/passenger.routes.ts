@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { createPassenger, generateJwtToken } from '../services/passenger.service';
+import { createPassenger, generateJwtToken, loginPassenger} from '../services/passenger.service';
 import logger from '../utils/winston';
 
 const router = express.Router();
@@ -23,6 +23,17 @@ router.post('/register', async (req: Request, res: Response): Promise<any> => {
   }
 });
 
+router.post('/login', async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { email, password } = req.body;
+
+    const { passenger, token } = await loginPassenger({ email, password });
+    res.status(200).json({ passenger, token });
+  } catch (error: any) {
+    logger.error(`Error logging in passenger: ${error.message}`);
+    res.status(400).json({ message: error.message });
+  }
+});
 
 
 export default router;

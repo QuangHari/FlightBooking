@@ -10,6 +10,11 @@ export interface CreatePassengerInput {
   passportNumber: string;
 }
 
+export interface LoginPassengerInput {
+  email: string;
+  password: string;
+}
+
 const saltRounds = 10;
 const secretKey = process.env.JWT_SECRET || 'your_secret_key';
 
@@ -43,4 +48,23 @@ export const generateJwtToken = (passengerId: number, email: string) => {
   const payload = { passengerId, email };
   const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
   return token;
+};
+
+
+export const loginPassenger = async (data: LoginPassengerInput) => {
+  const { email, password } = data;
+
+  const passenger = await prisma.passenger.findUnique({ where: { Email: email } });
+  if (!passenger) {
+    throw new Error('Invalid email or password');
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, passenger.Password);
+  if (!isPasswordValid) {
+    throw new Error('Invalid email or password');
+  }
+
+  const token = jwt.sign({ passengerId: passenger.PassengerID, email: passenger.Email }, secretKey, { expiresIn: '1h' });
+
+  return { passenger, token };
 };
