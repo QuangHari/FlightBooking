@@ -29,124 +29,173 @@
       <div v-if="activeTab === 0" class="p-8">
         <div class="flex gap-8 mb-6">
           <label 
-            v-for="(type, index) in flightTypes" 
-            :key="index" 
-            class="flex items-center gap-2 cursor-pointer"
+        v-for="(type, index) in flightTypes" 
+        :key="index" 
+        class="flex items-center gap-2 cursor-pointer"
           >
-            <div class="relative flex items-center">
-                <input
-                type="radio"
-                :value="type"
-                v-model="selectedFlightType"
-                class="w-5 h-5 border-2 border-gray-300 rounded-full appearance-none cursor-pointer checked:border-[#4f4939] checked:border-8 transition-all"
-              />
-            </div>
-            <span class="text-lg text-gray-700">{{ type }}</span>
+        <div class="relative flex items-center">
+            <input
+            type="radio"
+            :value="type"
+            v-model="selectedFlightType"
+            class="w-5 h-5 border-2 border-gray-300 rounded-full appearance-none cursor-pointer checked:border-[#4f4939] checked:border-8 transition-all"
+          />
+        </div>
+        <span class="text-lg text-gray-700">{{ type }}</span>
           </label>
         </div>
 
         <!-- Flight Search Form -->
         <div class="grid grid-cols-[1fr,auto,1fr,1fr,1fr] gap-4 items-center mb-6">
-          <div class="space-y-1">
-            <label class="text-sm text-gray-500">From</label>
-            <input 
-              type="text" 
-              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-              placeholder="City or airport"
-            />
+          <div class="space-y-1 relative">
+        <label class="text-sm text-gray-500">From</label>
+        <input 
+          v-model="fromInput"
+          type="text" 
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
+          placeholder="City or airport"
+          @focus="showFromDropdown = true"
+          @blur="hideFromDropdown"
+        />
+        <div v-if="showFromDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+          <div 
+            v-for="(option, index) in fromOptions" 
+            :key="index" 
+            @mousedown="selectFromOption(option)"
+            class="p-2 hover:bg-gray-100 cursor-pointer"
+          >
+            {{ option }}
+          </div>
+        </div>
           </div>
 
           <button class="p-2 hover:bg-gray-100 rounded-full">
-            <ArrowLeftRight class="w-5 h-5 text-gray-400" />
+        <ArrowLeftRight class="w-5 h-5 text-gray-400" />
           </button>
 
-          <div class="space-y-1">
-            <label class="text-sm text-gray-500">To</label>
-            <input 
-              type="text" 
-              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-              placeholder="City or airport"
-            />
+          <div class="space-y-1 relative">
+        <label class="text-sm text-gray-500">To</label>
+        <input 
+          v-model="toInput"
+          type="text" 
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
+          placeholder="City or airport"
+          @focus="showToDropdown = true"
+          @blur="hideToDropdown"
+        />
+        <div v-if="showToDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+          <div 
+            v-for="(option, index) in toOptions" 
+            :key="index" 
+            @mousedown="selectToOption(option)"
+            class="p-2 hover:bg-gray-100 cursor-pointer"
+          >
+            {{ option }}
+          </div>
+        </div>
           </div>
 
-          <div class="space-y-1">
-            <label class="text-sm text-gray-500">{{ selectedFlightType === 'Return' ? 'Departure' : 'Date' }}</label>
-            <Datepicker 
-              :enable-time-picker="false"
-              placeholder="Select date"
-              input-class-name="w-full p-3 text-lg border-0 focus:ring-0"
-            />
-          </div>
+        <div class="space-y-1">
+        <label class="text-sm text-gray-500">{{ selectedFlightType === 'Return' ? 'Departure' : 'Date' }}</label>
+        <Datepicker 
+          v-model="departureDate"
+          :enable-time-picker="false"
+          placeholder="Select date"
+          input-class-name="w-full p-3 text-lg border-0 focus:ring-0"
+        />
+        </div>
 
-          <div v-if="selectedFlightType === 'Return'" class="space-y-1">
-            <label class="text-sm text-gray-500">Return</label>
-            <Datepicker 
-              :enable-time-picker="false"
-              placeholder="Select date"
-              input-class-name="w-full p-3 text-lg border-0 focus:ring-0"
-            />
-          </div>
+        <div v-if="selectedFlightType === 'Return'" class="space-y-1">
+        <label class="text-sm text-gray-500">Return</label>
+        <Datepicker 
+          v-model="returnDate"
+          :enable-time-picker="false"
+          placeholder="Select date"
+          input-class-name="w-full p-3 text-lg border-0 focus:ring-0"
+        />
+        </div>
         </div>
 
         <!-- Passengers Selection -->
         <div class="flex items-center justify-between">
           <div class="relative">
-            <button 
-              ref="passengerRef"
-              @click.stop="isPassengersOpen = !isPassengersOpen"
-              class="flex items-center gap-2 py-3 px-4 rounded-lg hover:bg-gray-50"
-            >
-              <Users2 class="w-5 h-5 text-gray-500" />
-              <span class="text-lg">{{ passengers }} Passenger{{ passengers !== 1 ? 's' : '' }} {{ cabinClass }}</span>
-              <!-- <ChevronDown class="w-5 h-5 text-gray-400" :class="{ 'rotate-180': isPassengersOpen }" /> -->
-            </button>
+        <button 
+          ref="passengerRef"
+          @click.stop="isPassengersOpen = !isPassengersOpen"
+          class="flex items-center gap-2 py-3 px-4 rounded-lg hover:bg-gray-50"
+        >
+          <Users2 class="w-5 h-5 text-gray-500" />
+          <span class="text-lg">{{ passengers }} Passenger{{ passengers !== 1 ? 's' : '' }} {{ cabinClass }}</span>
+          <!-- <ChevronDown class="w-5 h-5 text-gray-400" :class="{ 'rotate-180': isPassengersOpen }" /> -->
+        </button>
 
-            <!-- Passengers Dropdown -->
-            <div 
-              v-if="isPassengersOpen"
-              class="fixed inset-x-0 top-auto bottom-0 md:absolute md:top-full md:left-0 md:bottom-auto mt-2 w-full md:w-80 bg-white rounded-lg shadow-lg border p-4 z-50"
-            @click.stop>
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <span>Passengers</span>
-                  <div class="flex items-center gap-3">
-                    <button 
-                      @click="passengers = Math.max(1, passengers - 1)"
-                      class="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
-                    >
-                      <Minus class="w-4 h-4" />
-                    </button>
-                    <span class="w-8 text-center">{{ passengers }}</span>
-                    <button 
-                      @click="passengers++"
-                      class="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
-                    >
-                      <Plus class="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-                <div class="space-y-2">
-                  <label class="text-sm text-gray-500">Cabin class</label>
-                  <select 
-                    v-model="cabinClass"
-                    class="w-full p-2 border rounded-lg"
-                  >
-                    <option>Economy</option>
-                    <option>Business</option>
-                    <option>First Class</option>
-                  </select>
-                </div>
-              </div>
+        <!-- Passengers Dropdown -->
+        <div 
+          v-if="isPassengersOpen"
+          class="fixed inset-x-0 top-auto bottom-0 md:absolute md:top-full md:left-0 md:bottom-auto mt-2 w-full md:w-80 bg-white rounded-lg shadow-lg border p-4 z-50"
+        @click.stop>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+          <span>Passengers</span>
+          <div class="flex items-center gap-3">
+            <button 
+              @click="passengers = Math.max(1, passengers - 1)"
+              class="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
+            >
+              <Minus class="w-4 h-4" />
+            </button>
+            <span class="w-8 text-center">{{ passengers }}</span>
+            <button 
+              @click="passengers++"
+              class="w-8 h-8 rounded-full border flex items-center justify-center hover:bg-gray-50"
+            >
+              <Plus class="w-4 h-4" />
+            </button>
+          </div>
             </div>
+            <div class="space-y-2">
+          <label class="text-sm text-gray-500">Cabin class</label>
+          <select 
+            v-model="cabinClass"
+            class="w-full p-2 border rounded-lg"
+          >
+            <option>Economy</option>
+            <option>Business</option>
+            <option>First Class</option>
+          </select>
+            </div>
+          </div>
+        </div>
           </div>
 
           <div class="flex items-center gap-4">
-            <button class="text-[#4f4939] hover:text-[#d0c5a4] font-medium">
-              + Add promo code
-            </button>
-            <router-link to="/flights" class="bg-[#4f4939] hover:bg-[#d0c5a4] text-white px-8 py-3 rounded-full font-medium">
-              Search flights
-            </router-link>
+        <button class="text-[#4f4939] hover:text-[#d0c5a4] font-medium">
+          + Add promo code
+        </button>
+        <router-link 
+          :to="{
+          path: '/flights',
+          query: {
+            from: fromInput,
+            to: toInput,
+            departureDate: departureDate,
+            returnDate: selectedFlightType === 'Return' ? returnDate : null,
+            passengers: passengers,
+            cabinClass: cabinClass
+          }
+          }" 
+          class="bg-[#4f4939] hover:bg-[#d0c5a4] text-white px-8 py-3 rounded-full font-medium"
+          @click="console.log({
+          from: fromInput,
+          to: toInput,
+          departureDate: departureDate,
+          returnDate: selectedFlightType === 'Return' ? returnDate : null,
+          passengers: passengers,
+          cabinClass: cabinClass
+          })"
+        >
+          Search flights
+        </router-link>
           </div>
         </div>
       </div>
@@ -437,6 +486,38 @@ const stopoverDays = ref(1)
 const manageTab = ref(0)
 
 const statusTab = ref(0)
+
+const departureDate = ref(null)
+const returnDate = ref(null)
+const fromInput = ref('')
+const showFromDropdown = ref(false)
+const fromOptions = ref(['Hanoi', 'Ho Chi Minh City', 'Hue', 'Da Nang', 'Hai Phong', 'Dien Bien', 'Binh Duong', 'Can Tho', 'Da Lat', 'Nha Trang'])
+
+const selectFromOption = (option: string) => {
+  fromInput.value = option
+  showFromDropdown.value = false
+}
+
+const hideFromDropdown = () => {
+  setTimeout(() => {
+    showFromDropdown.value = false
+  }, 100)
+}
+
+const toInput = ref('')
+const showToDropdown = ref(false)
+const toOptions = ref(['Hanoi', 'Ho Chi Minh City', 'Hue', 'Da Nang', 'Hai Phong', 'Dien Bien', 'Binh Duong', 'Can Tho', 'Da Lat', 'Nha Trang'])
+
+const selectToOption = (option: string) => {
+  toInput.value = option
+  showToDropdown.value = false
+}
+
+const hideToDropdown = () => {
+  setTimeout(() => {
+    showToDropdown.value = false
+  }, 100)
+}
 
 const handleClickOutside = (event: MouseEvent) => {
   if (passengerRef.value && !(passengerRef.value as HTMLElement).contains(event.target as Node)) {

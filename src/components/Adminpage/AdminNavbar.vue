@@ -27,9 +27,6 @@
   
           <!-- Right section: Actions -->
           <div class="flex items-center gap-6">
-            <a href="#" class="text-gray-700 hover:text-[#d0c5a4] font-medium hidden sm:block">
-              Help
-            </a>
             <button class="text-gray-700 hover:text-[#d0c5a4]">
             </button>
             <div class="flex items-center gap-2 text-gray-700 hover:text-[#d0c5a4] cursor-pointer">
@@ -52,13 +49,14 @@
     </nav>
   </template>
   
-  <script setup lang ="ts">  
-  const navigationItems = ['Explore', 'Book', 'Experience', 'Privilege Club']
+  <script setup lang ="ts">
+    import { ref } from 'vue';
+    const navigationItems = ref(['Edit Flight Info', 'Add Flight', 'Add Plance', 'Publish Ad']);
   </script>
 
 
   <script lang = "ts">
     export default {
-    name: "Navbar",
+    name: "AdminNavbar",
   };
   </script>
