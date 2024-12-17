@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-lg p-4 md:p-6 shadow-md">
+    <div class="bg-white rounded-lg p-4 md:p-6 shadow-md flex flex-row">
       <!-- Flight Header -->
       <div class="flex items-center gap-2 mb-4">
         <span class="font-medium" style="color: #4f4939;">Qsuite</span>
@@ -7,7 +7,7 @@
       </div>
   
       <!-- Flight Times and Route -->
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center justify-between mb-6 ml-9 self-center">
         <div class="space-y-1">
           <div class="text-2xl md:text-4xl font-light">{{ departureTime }}</div>
           <div class="text-sm text-gray-600">{{ departureAirport }}</div>
@@ -31,13 +31,13 @@
       <!-- Flight Details Button -->
     <button 
       @click="showDetails = true"
-      class="text-sm text-gray-900 hover:text-[#d0c5a4] font-medium mb-6 underline"
+      class="text-sm text-gray-900 hover:text-[#d0c5a4] font-medium mb-6 underline ml-auto mr-8"
     >
       Flight details
     </button>
   
       <!-- Fare Options -->
-      <div class="grid grid-cols-2 gap-4">
+      <div class="ml-auto grid grid-cols-2 gap-4">
         <button 
           @click="showFareDetails('economy')"
           class="text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
@@ -145,7 +145,10 @@
               </div>
             </div>
   
-            <button class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium">
+            <button 
+              @click="$router.push('/checkout')"
+              class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium"
+            >
               Select fare
             </button>
   

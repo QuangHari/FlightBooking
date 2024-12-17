@@ -6,6 +6,7 @@ import AuthorPage from '../views/Author.vue';
 import Flights from '../views/Flights.vue';
 import Admin from '../views/Admin.vue';
 import FlightStatus from '../views/FlightStatus.vue'
+import CheckOut from '../views/CheckOut.vue';
 
 const routes = [
   {
@@ -27,7 +28,11 @@ const routes = [
   {
     path: '/status',
     component: FlightStatus,
-  }
+  },
+  {
+    path: '/checkout',
+    component: CheckOut,
+  },
 ];
 
 const router = createRouter({
