@@ -12,10 +12,9 @@
 </template>
 
 <script setup lang = "ts">
-    import StatusSearch from '@/components/Statuspage/StatusSearch.vue';
-    import StatusCard from '@/components/Statuspage/StatusCard.vue';
-    import Navbar from '@/components/shared/Navbar.vue';
-    import FooterBar from '@/components/shared/FooterBar.vue';
+    import StatusSearch from '../components/Statuspage/StatusSearch.vue';
+    import Navbar from '../components/shared/Navbar.vue';
+    import FooterBar from '../components/shared/FooterBar.vue';
 </script>
 
 <script lang = "ts">

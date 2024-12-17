@@ -197,8 +197,6 @@ import {
   Users2,
   Search,
   X,
-  ChevronUp,
-  ArrowRight
 } from 'lucide-vue-next'
 
 import Datepicker from '@vuepic/vue-datepicker'

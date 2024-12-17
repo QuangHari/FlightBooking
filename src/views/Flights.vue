@@ -20,8 +20,8 @@
   import { ref } from 'vue'
   import Navbar from '../components/shared/Navbar.vue'
   import FlightCard from '../components/Flightspage/FlightCard.vue'
-  import FooterBar from '@/components/shared/FooterBar.vue';
-  import FlightSearchBar from '@/components/Flightspage/FlightSearchBar.vue';
+  import FooterBar from '../components/shared/FooterBar.vue';
+  import FlightSearchBar from '../components/Flightspage/FlightSearchBar.vue';
   
   interface Flight {
     departureTime: string

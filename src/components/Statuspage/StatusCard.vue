@@ -2,7 +2,7 @@
     <div class="bg-white rounded-lg border p-6 grid grid-cols-[200px,1fr,auto] gap-8 shadow-md">
       <!-- Flight Number and Status -->
       <div class="space-y-4">
-        <h2 class="text-3xl font-medium text-[#800020]">{{ flightNumber }}</h2>
+        <h2 class="text-3xl font-medium text-[#4f4939]">{{ flightNumber }}</h2>
         <div class="flex items-center gap-2 text-green-600">
           <Plane class="w-5 h-5" />
           <span class="uppercase font-medium">{{ status }}</span>
@@ -15,7 +15,7 @@
         <div class="space-y-2">
           <p class="text-lg font-medium">{{ formatDateTime(departureDateTime) }}</p>
           <div>
-            <p class="text-lg font-medium text-[#800020]">{{ departureCity }}({{ departureCode }})</p>
+            <p class="text-lg font-medium text-[#4f4939]">{{ departureCity }}({{ departureCode }})</p>
             <p class="text-sm text-gray-600">{{ departureAirport }},</p>
             <p class="text-sm text-gray-600">{{ departureCountry }}</p>
           </div>
@@ -35,7 +35,7 @@
         <div class="space-y-2">
           <p class="text-lg font-medium">{{ formatDateTime(arrivalDateTime) }}</p>
           <div>
-            <p class="text-lg font-medium text-[#800020]">{{ arrivalCity }}({{ arrivalCode }})</p>
+            <p class="text-lg font-medium text-[#4f4939]">{{ arrivalCity }}({{ arrivalCode }})</p>
             <p class="text-sm text-gray-600">{{ arrivalAirport }},</p>
             <p class="text-sm text-gray-600">{{ arrivalCountry }}</p>
           </div>
@@ -43,7 +43,7 @@
       </div>
   
       <!-- Set Alert Button -->
-      <button class="h-fit px-6 py-3 bg-[#1e4d3f] text-white rounded-lg hover:bg-[#2a6d59] transition-colors">
+      <button class="h-fit px-6 py-3 bg-[#4f4939] text-white rounded-lg hover:bg-[#d0c5a4] transition-colors">
         Set alert
       </button>
     </div>
