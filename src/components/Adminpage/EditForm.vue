@@ -117,7 +117,7 @@
     } catch (error) {
       console.error('Error adding flight:', error)
     } finally {
-        
+
     }
   }
   
@@ -146,6 +146,7 @@
   }
   
   input[type="number"] {
+    appearance: textfield;
     -moz-appearance: textfield;
   }
   </style>

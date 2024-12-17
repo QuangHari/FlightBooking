@@ -5,6 +5,7 @@ import HomePage from '../views/Homepage.vue';
 import AuthorPage from '../views/Author.vue';
 import Flights from '../views/Flights.vue';
 import Admin from '../views/Admin.vue';
+import FlightStatus from '../views/FlightStatus.vue'
 
 const routes = [
   {
@@ -22,6 +23,10 @@ const routes = [
   {
     path: '/admin',
     component: Admin,
+  },
+  {
+    path: '/status',
+    component: FlightStatus,
   }
 ];
 

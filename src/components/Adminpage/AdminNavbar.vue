@@ -51,7 +51,7 @@
   
   <script setup lang ="ts">
     import { ref } from 'vue';
-    const navigationItems = ref(['Edit Flight Info', 'Add Flight', 'Add Plance', 'Publish Ad']);
+    const navigationItems = ref(['Add Flight', 'Add Plance', 'Publish Ad', 'Edit Flight Info']);
   </script>
 
 

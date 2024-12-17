@@ -438,9 +438,12 @@
         </div>
 
         <div class="mt-6 flex justify-end">
-          <button class="bg-[#4f4939] hover:bg-[#d0c5a4] text-white px-8 py-3 rounded-full font-medium">
+            <router-link 
+            to="/status" 
+            class="bg-[#4f4939] hover:bg-[#d0c5a4] text-white px-8 py-3 rounded-full font-medium"
+            >
             Search
-          </button>
+            </router-link>
         </div>
       </div>
     </div>
