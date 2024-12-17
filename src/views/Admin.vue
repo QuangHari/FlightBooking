@@ -19,7 +19,7 @@ import FlightInfoForm from '@/components/Adminpage/FlightInfoForm.vue';
 import PlaneInfoForm from '@/components/Adminpage/PlaneInfoForm.vue';
 import PublishAdForm from '@/components/Adminpage/PublishAdForm.vue'
 import EditForm from '@/components/Adminpage/EditForm.vue';
-import AdminNavbar from '@/components/AdminPage/AdminNavbar.vue';
+import AdminNavbar from '@/components/Adminpage/AdminNavbar.vue';
 </script>
 
 <script lang = "ts">

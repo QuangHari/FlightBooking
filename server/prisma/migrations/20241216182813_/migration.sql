@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Passenger" ALTER COLUMN "FirstName" DROP NOT NULL,
+ALTER COLUMN "LastName" DROP NOT NULL,
+ALTER COLUMN "PassportNumber" DROP NOT NULL;

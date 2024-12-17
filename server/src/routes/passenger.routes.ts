@@ -7,13 +7,13 @@ const router = express.Router();
 // Route tạo mới passenger (đăng ký)
 router.post('/register', async (req: Request, res: Response): Promise<any> => {
   try {
-    const { email, password, firstName, lastName, passportNumber } = req.body;
+    const { email, password , username} = req.body;
 
-    if (!email || !password || !firstName || !lastName || !passportNumber) {
+    if (!email || !password ) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const passenger = await createPassenger({ email, password, firstName, lastName, passportNumber });
+    const passenger = await createPassenger({ email, password , username });
     const token = generateJwtToken(passenger.PassengerID, passenger.Email);
 
     res.status(201).json({ passenger, token });
