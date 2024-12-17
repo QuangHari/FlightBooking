@@ -1,13 +1,12 @@
 import prisma from '../utils/prisma';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import logger from '../utils/winston';
 
 export interface CreatePassengerInput {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
-  passportNumber: string;
+  username: string;
 }
 
 export interface LoginPassengerInput {
@@ -19,11 +18,12 @@ const saltRounds = 10;
 const secretKey = process.env.JWT_SECRET || 'your_secret_key';
 
 export const createPassenger = async (data: CreatePassengerInput) => {
-  const { email, password, firstName, lastName, passportNumber } = data;
+  const { email, password , username} = data;
 
   // Kiểm tra nếu email đã tồn tại
   const existingPassenger = await prisma.passenger.findUnique({ where: { Email: email } });
   if (existingPassenger) {
+    logger.error(`Email already in use: ${email}`);
     throw new Error('Email already in use');
   }
 
@@ -35,12 +35,11 @@ export const createPassenger = async (data: CreatePassengerInput) => {
     data: {
       Email: email,
       Password: hashedPassword,
-      FirstName: firstName,
-      LastName: lastName,
-      PassportNumber: passportNumber,
+      Username: data.username,
     }
   });
 
+  logger.info(`Passenger created with email: ${email}`);
   return passenger;
 };
 

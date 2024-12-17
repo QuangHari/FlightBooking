@@ -37,6 +37,10 @@ export const createBooking = async (data: CreateBookingInput) => {
       FlightID: flightId,
       PassengerID: passengerId,
       PaymentStatus: paymentStatus,
+      EconomyPrice: 0, 
+      BusinessPrice: 0,
+      EconomySeats: 0, 
+      BusinessSeats: 0, 
       Seats: {
         connect: availableSeats.map((seat) => ({ SeatID: seat.SeatID })),
       },
