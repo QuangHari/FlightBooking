@@ -74,7 +74,7 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang = "ts">
   import { ref, reactive } from 'vue'
   import Datepicker from '@vuepic/vue-datepicker'
   import '@vuepic/vue-datepicker/dist/main.css'
@@ -87,9 +87,25 @@
     date: null
   })
   
-  const searchResult = ref(null)
+  interface SearchResult {
+    flightNumber: string;
+    status: string;
+    departureDateTime: Date;
+    arrivalDateTime: Date;
+    departureCity: string;
+    departureCode: string;
+    departureAirport: string;
+    departureCountry: string;
+    arrivalCity: string;
+    arrivalCode: string;
+    arrivalAirport: string;
+    arrivalCountry: string;
+    progressPercentage: number;
+  }
   
-  const formatDate = (date) => {
+  const searchResult = ref<SearchResult | null>(null)
+  
+  const formatDate = (date :Date) => {
     if (!date) return ''
     return new Date(date).toLocaleDateString('en-US', {
       day: 'numeric',
@@ -138,7 +154,7 @@
   }
   </style>
   
-  <script>
+  <script lang = "ts">
   export default {
     name: 'StatusSearch',
   };

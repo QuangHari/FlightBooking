@@ -49,7 +49,7 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang = "ts">
   import { computed } from 'vue'
   import { Plane } from 'lucide-vue-next'
   
@@ -108,7 +108,7 @@
     }
   })
   
-  const formatDateTime = (date) => {
+  const formatDateTime = (date : Date) => {
     return new Date(date).toLocaleDateString('en-US', {
       weekday: 'short',
       month: 'short',
@@ -120,7 +120,7 @@
   }
   </script>
   
-<script>
+<script lang = "ts">
     export default {
         name: 'StatusCard'
     };

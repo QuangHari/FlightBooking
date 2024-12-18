@@ -134,13 +134,13 @@
         >
           <div class="bg-white rounded-lg w-full max-w-xl overflow-hidden p-6">
             <div class="mb-6">
-              <div class="text-sm text-gray-600">{{ getCurrentFare.flexibility }}</div>
-              <h3 class="text-3xl font-light mb-4">{{ getCurrentFare.name }}</h3>
+              <div v-if="getCurrentFare" class="text-sm text-gray-600">{{ getCurrentFare.flexibility }}</div>
+              <h3 v-if="getCurrentFare" class="text-3xl font-light mb-4">{{ getCurrentFare.name }}</h3>
               <div class="flex justify-between items-baseline">
                 <div class="text-sm text-gray-600">Total for all passengers</div>
                 <div class="flex items-baseline gap-2">
                   <span class="text-lg text-gray-600">VND</span>
-                  <span class="text-4xl font-light">{{ getCurrentFare.price.toLocaleString() }}</span>
+                  <span class="text-4xl font-light">{{ getCurrentFare?.price.toLocaleString() }}</span>
                 </div>
               </div>
             </div>
@@ -154,12 +154,12 @@
   
             <div class="flex items-center gap-2 mb-6">
               <Plane class="w-5 h-5" />
-              <span>Earn {{ getCurrentFare.avios.toLocaleString() }} Avios</span>
+              <span v-if="getCurrentFare">Earn {{ getCurrentFare.avios.toLocaleString() }} Avios</span>
             </div>
   
             <div class="text-lg mb-4">Benefits and fees per adult passenger</div>
             <div class="space-y-4">
-              <div v-for="(benefit, index) in getCurrentFare.benefits" :key="index" class="flex items-center gap-3">
+              <div v-for="(benefit, index) in getCurrentFare?.benefits" :key="index" class="flex items-center gap-3">
                 <component :is="benefit.icon" class="w-6 h-6 text-gray-600" />
                 <span class="text-gray-700">{{ benefit.text }}</span>
                 <InfoIcon v-if="benefit.hasInfo" class="w-5 h-5 text-gray-400" />
@@ -177,7 +177,7 @@
     </div>
   </template>
   
-  <script setup>
+  <script setup lang = "ts">
   import { ref, computed } from 'vue'
   import { InfoIcon, X, Plane, Calendar, Ban, Briefcase, Luggage, Armchair, CreditCard } from 'lucide-vue-next'
   
@@ -270,13 +270,17 @@
     return fareOptions.find(fare => fare.type === fareType)
   })
   
-  const showFareDetails = (type) => {
+  const showFareDetails = (type : any) => {
     selectedFare.value = type
     selectedFareTab.value = type === 'business' ? 'business' : 'economy_convenience'
   }
   </script>  
  
+<<<<<<< Updated upstream
 <script >
+=======
+<script lang = "ts">
+>>>>>>> Stashed changes
 export default {
   name: "FlightCard",
 };
