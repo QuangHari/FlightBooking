@@ -276,11 +276,7 @@
   }
   </script>  
  
-<<<<<<< Updated upstream
-<script >
-=======
 <script lang = "ts">
->>>>>>> Stashed changes
 export default {
   name: "FlightCard",
 };
