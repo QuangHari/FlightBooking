@@ -4,6 +4,7 @@ import bookingRoutes from './routes/booking.routes';
 import flightRoutes from './routes/flight.routes';
 import passengerRoutes from './routes/passenger.routes'; 
 import airportRoutes from './routes/airport.routes';
+import planeRoutes from './routes/plane.routes';
 import { authenticateJWT } from './middlewares/auth.middleware';
 
 // Tạo ứng dụng Express
@@ -17,5 +18,6 @@ app.use(express.json());
 app.use('/api/passengers', passengerRoutes); 
 app.use('/api/bookings', authenticateJWT ,bookingRoutes); 
 app.use('/api/flights', authenticateJWT, flightRoutes);
-app.use('/api/airports', authenticateJWT, airportRoutes);
+app.use('/api/airports', airportRoutes);
+app.use('/api/planes', authenticateJWT, planeRoutes);
 export default app;

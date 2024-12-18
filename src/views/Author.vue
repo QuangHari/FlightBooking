@@ -123,7 +123,7 @@
 import { ref } from 'vue'
 import { Facebook, Mail, Linkedin } from 'lucide-vue-next'
 import { useAuthStore } from '../stores/auth.store';
-import { useRegisStore } from '@/stores/regis.store';
+import { useRegisStore } from '../stores/regis.store';
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 

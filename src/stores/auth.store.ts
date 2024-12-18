@@ -18,7 +18,7 @@ interface AuthState {
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
-    accessToken: null,
+    accessToken:  localStorage.getItem("accessToken") || null,
     passenger: null,
     isAuthenticated: false,
   }),
@@ -55,13 +55,11 @@ export const useAuthStore = defineStore("auth", {
     },
 
     loadStoredToken() {
-      // Lấy token từ localStorage
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        this.accessToken = token;
-        this.isAuthenticated = true;
-      }
-    },
+      return localStorage.getItem("accessToken");
+      
+    }
+    
+    
   },
 
   getters: {

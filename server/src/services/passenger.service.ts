@@ -18,6 +18,7 @@ const saltRounds = 10;
 const secretKey = process.env.JWT_SECRET || 'your_secret_key';
 
 export const createPassenger = async (data: CreatePassengerInput) => {
+  logger.info('Attempting to create a new passenger', { email: data.email });
   const { email, password , username} = data;
 
   // Kiểm tra nếu email đã tồn tại
@@ -52,18 +53,22 @@ export const generateJwtToken = (passengerId: number, email: string) => {
 
 export const loginPassenger = async (data: LoginPassengerInput) => {
   const { email, password } = data;
+  logger.info('Attempting to log in passenger', { email });
 
   const passenger = await prisma.passenger.findUnique({ where: { Email: email } });
   if (!passenger) {
+    logger.error(`Login failed for email: ${email} - Invalid email or password`);
     throw new Error('Invalid email or password');
   }
 
   const isPasswordValid = await bcrypt.compare(password, passenger.Password);
   if (!isPasswordValid) {
+    logger.error(`Login failed for email: ${email} - Invalid email or password`);
     throw new Error('Invalid email or password');
   }
 
   const token = jwt.sign({ passengerId: passenger.PassengerID, email: passenger.Email }, secretKey, { expiresIn: '1h' });
 
+  logger.info(`Passenger logged in with email: ${email}`);
   return { passenger, token };
 };

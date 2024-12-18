@@ -5,27 +5,27 @@
           <h2 class="text-2xl font-bold text-[#4f4939] mb-6">Add New Plane</h2>
           
           <form @submit.prevent="handleSubmit" class="space-y-6">
-            <!-- Plane Brand -->
+            <!-- Plane Name -->
             <div class="space-y-1">
-              <label class="text-sm text-gray-500">Brand</label>
+              <label class="text-sm text-gray-500">Name</label>
               <input 
-                v-model="form.brand"
+                v-model="form.name"
                 type="text" 
                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                placeholder="Enter flight number"
+                placeholder="Enter plane name"
                 required
               />
             </div>
 
             <!-- Model -->
             <div class="space-y-1">
-              <label class="text-sm text-gray-500">Model</label>
+              <label class="text-sm text-gray-500">Description</label>
               <input 
-                v-model="form.model"
+                v-model="form.description"
                 type="text" 
                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                placeholder="Enter flight number"
-                required
+                placeholder="Enter plane description"
+              required
               />
             </div>
   
@@ -88,11 +88,12 @@
   import { ref, reactive } from 'vue'
   import '@vuepic/vue-datepicker/dist/main.css'
   import { CheckCircle } from 'lucide-vue-next'
-  
+  import { createPlane } from '../../api/plane'
+
   const form = reactive({
-    brand: null,
-    model: null,
-    availableSeats: null
+    name : '',
+    description: '',
+    availableSeats: 0
   })
   
   const isSubmitting = ref(false)
@@ -102,10 +103,14 @@
     try {
       isSubmitting.value = true
       
-      // Here you would typically make an API call to save the flight
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Simulated API call
+    
+      await createPlane({
+        name: form.name,
+        capacity: form.availableSeats,
+        details : form.description,
+      });
       
-      console.log('Submitted plane:', form)
+      
       showSuccess.value = true
       resetForm()
     } catch (error) {
@@ -116,9 +121,9 @@
   }
   
   const resetForm = () => {
-    form.brand = null
-    form.model = null
-    form.availableSeats = null
+    form.name = ''
+    form.description = ''
+    form.availableSeats = 0
   }
   </script>
   

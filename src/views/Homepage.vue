@@ -47,7 +47,7 @@ export default {
 </script>
 
 
-<script setup lang = "ts">
+<script setup lang = "ts" >
   import Navbar from '../components/shared/Navbar.vue';
   import FlightSearch from '../components/Homepage/FlightSearch.vue';
   import Card from '../components/Homepage/CardItem.vue';

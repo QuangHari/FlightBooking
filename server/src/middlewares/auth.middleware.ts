@@ -8,11 +8,13 @@ export const authenticateJWT = async (req: any, res: Response, next: NextFunctio
   const token = req.header('Authorization')?.split(' ')[1];
 
   if (!token) {
+    logger.error('Access Denied: No token provided');
     res.status(401).json({ message: 'Access Denied: No token provided' });
     return;
   }
-
+    
   try {
+    logger.info('Verifying JWT token');
     const payload = jwt.verify(token, secretKey);
     req.user = payload;
     next();

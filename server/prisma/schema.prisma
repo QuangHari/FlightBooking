@@ -90,7 +90,6 @@ model Seat {
 model Aircraft {
   AircraftID     Int       @id @default(autoincrement())
   Name           String
-  Images         String[]  // Array of image URLs
   Capacity       Int
   Details        String?   // Any additional details about the aircraft
 

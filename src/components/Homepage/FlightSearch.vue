@@ -465,6 +465,8 @@ import {
 } from 'lucide-vue-next'
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { fetchAllAirports } from '../../api/airport'
+
 
 const tabs = [
   { label: 'Book a flight', icon: Plane },
@@ -494,8 +496,7 @@ const departureDate = ref(null)
 const returnDate = ref(null)
 const fromInput = ref('')
 const showFromDropdown = ref(false)
-const fromOptions = ref(['Hanoi', 'Ho Chi Minh City', 'Hue', 'Da Nang', 'Hai Phong', 'Dien Bien', 'Binh Duong', 'Can Tho', 'Da Lat', 'Nha Trang'])
-
+const fromOptions = ref<string[]>([])
 const selectFromOption = (option: string) => {
   fromInput.value = option
   showFromDropdown.value = false
@@ -509,7 +510,7 @@ const hideFromDropdown = () => {
 
 const toInput = ref('')
 const showToDropdown = ref(false)
-const toOptions = ref(['Hanoi', 'Ho Chi Minh City', 'Hue', 'Da Nang', 'Hai Phong', 'Dien Bien', 'Binh Duong', 'Can Tho', 'Da Lat', 'Nha Trang'])
+const toOptions = ref<string[]>([])
 
 const selectToOption = (option: string) => {
   toInput.value = option
@@ -528,7 +529,25 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 }
 
+const fetchAllData = async () => {
+  try {
+    const data = await fetchAllAirports();
+    const airports = data.airports;  
+
+    if (Array.isArray(airports)) {
+      fromOptions.value = airports.map((airport: { Location: string }) => airport.Location);
+      toOptions.value = airports.map((airport: { Location: string }) => airport.Location);
+    } else {
+      console.error("Unexpected data format from API");
+    }
+  } catch (error) {
+    console.error("Error fetching airports:", error);
+  }
+}
+
+ 
 onMounted(() => {
+  fetchAllData()
   document.addEventListener('click', handleClickOutside)
 })
 
