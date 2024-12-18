@@ -276,7 +276,7 @@
   }
   </script>  
  
-<script lang="ts">
+<script >
 export default {
   name: "FlightCard",
 };
