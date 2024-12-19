@@ -48,29 +48,29 @@
         <!-- Flight Search Form -->
         <div class="grid grid-cols-[1fr,auto,1fr,1fr,1fr] gap-4 items-center mb-6">
           <div class="space-y-1 relative">
-        <label class="text-sm text-gray-500">From</label>
-        <input 
-          v-model="fromInput"
-          type="text" 
-          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-          placeholder="City or airport"
-          @focus="showFromDropdown = true"
-          @blur="hideFromDropdown"
-        />
-        <div v-if="showFromDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-          <div 
-            v-for="(option, index) in fromOptions" 
-            :key="index" 
-            @mousedown="selectFromOption(option)"
-            class="p-2 hover:bg-gray-100 cursor-pointer"
-          >
-            {{ option }}
-          </div>
-        </div>
+            <label class="text-sm text-gray-500">From</label>
+            <input 
+              v-model="fromInput"
+              type="text" 
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
+              placeholder="City or airport"
+              @focus="showFromDropdown = true"
+              @blur="hideFromDropdown"
+            />
+            <div v-if="showFromDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <div 
+                v-for="(option, index) in fromOptions" 
+                :key="index" 
+                @mousedown="selectFromOption(option)"
+                class="p-2 hover:bg-gray-100 cursor-pointer"
+              >
+                {{ option }}
+              </div>
+            </div>
           </div>
 
           <button class="p-2 hover:bg-gray-100 rounded-full">
-        <ArrowLeftRight class="w-5 h-5 text-gray-400" />
+            <ArrowLeftRight class="w-5 h-5 text-gray-400" />
           </button>
 
           <div class="space-y-1 relative">

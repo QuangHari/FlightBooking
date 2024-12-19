@@ -12,9 +12,23 @@
                 v-model="form.flightNumber"
                 type="text" 
                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                placeholder="Enter flight number"
+                placeholder="Select flight number"
+                @focus="showFlightDropdown = true"
+                @blur="hideFlightDropdown"
                 required
               />
+              <div class = "relative">
+                <div v-if="showFlightDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60">
+                  <div 
+                    v-for="(option, index) in flightOptions" 
+                    :key="index" 
+                    @mousedown="selectFlightOption(option)"
+                    class="p-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    {{ option }}
+                  </div>
+                </div>
+              </div>
             </div>
   
             <div class="grid grid-cols-2 gap-4">
@@ -103,6 +117,20 @@
   
   const isSubmitting = ref(false)
   const showSuccess = ref(false)
+
+  const showFlightDropdown = ref(false)
+  const flightOptions = ref<string[]>([])
+
+  const selectFlightOption = (option: string) => {
+    form.flightNumber = option
+    showFlightDropdown.value = false
+  }
+
+  const hideFlightDropdown = () => {
+    setTimeout(() => {
+      showFlightDropdown.value = false
+    }, 100)
+  }
   
   const handleSubmit = async () => {
     try {

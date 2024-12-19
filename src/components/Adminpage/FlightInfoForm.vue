@@ -19,31 +19,53 @@
   
             <div class="grid grid-cols-2 gap-4">
               <!-- Origin Airport Code -->
-              <div class="space-y-1">
+              <div class="space-y-1 relative">
                 <label class="text-sm text-gray-500">Origin City Code</label>
-                <input 
-                  v-model="form.originAirportCode"
-                  type="text" 
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                  placeholder="e.g., HAN"
-                  required
-                  maxlength="3"
-                  @input="form.originAirportCode = form.originAirportCode.toUpperCase()"
-                />
+                <div>
+                  <input 
+                    v-model="form.originAirportCode"
+                    type="text" 
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
+                    placeholder="City or airport"
+                    @focus="showFromDropdown = true"
+                    @blur="hideFromDropdown"
+                    required
+                  />
+                  <div v-if="showFromDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <div 
+                      v-for="(option, index) in fromOptions" 
+                      :key="index" 
+                      @mousedown="selectFromOption(option)"
+                      class="p-2 hover:bg-gray-100 cursor-pointer"
+                    >
+                      {{ option }}
+                    </div>
+                  </div>
+                </div>
               </div>
   
               <!-- Destination Airport Code -->
-              <div class="space-y-1">
+              <div class="space-y-1 relative">
                 <label class="text-sm text-gray-500">Destination City Code</label>
                 <input 
                   v-model="form.destinationAirportCode"
                   type="text" 
                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                  placeholder="e.g., HUE"
+                  placeholder="City or airport"
+                  @focus="showToDropdown = true"
+                  @blur="hideToDropdown"
                   required
-                  maxlength="3"
-                  @input="form.destinationAirportCode = form.destinationAirportCode.toUpperCase()"
                 />
+                <div v-if="showToDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                  <div 
+                    v-for="(option, index) in toOptions" 
+                    :key="index" 
+                    @mousedown="selectToOption(option)"
+                    class="p-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    {{ option }}
+                  </div>
+                </div>
               </div>
             </div>
   
@@ -93,13 +115,26 @@
             <div class="space-y-1">
               <label class="text-sm text-gray-500">Plane</label>
               <input 
-                v-model.number="form.plane"
-                type="number" 
-                min="0"
-                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                placeholder="Enter number of available seats"
-                required
-              />
+                  v-model="form.plane"
+                  type="text" 
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
+                  placeholder="City or airport"
+                  @focus="showPlaneDropdown = true"
+                  @blur="hidePlaneDropdown"
+                  required
+                />
+                <div class="relative">
+                  <div v-if="showPlaneDropdown" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <div 
+                      v-for="(option, index) in planeOptions" 
+                      :key="index" 
+                      @mousedown="selectPlaneOption(option)"
+                      class="p-2 hover:bg-gray-100 cursor-pointer"
+                    >
+                      {{ option }}
+                    </div>
+                  </div>
+                </div>
             </div>
 
             <div class="space-y-1">
@@ -181,14 +216,54 @@
     originAirportCode: '',
     destinationAirportCode: '',
     availableSeats: null,
-    plane: null,
+    plane: null as string | null,
     economyPrice: null,
     firstClassPrice: null
   })
   
+  const showFromDropdown = ref(false)
+  const fromOptions = ref<string[]>([])
   const isSubmitting = ref(false)
   const showSuccess = ref(false)
+
+  const selectFromOption = (option: string) => {
+    form.originAirportCode = option
+    showFromDropdown.value = false
+  }
   
+  const hideFromDropdown = () => {
+    setTimeout(() => {
+      showFromDropdown.value = false
+    }, 100)
+  }
+
+  const showToDropdown = ref(false)
+  const toOptions = ref<string[]>([])
+
+  const selectToOption = (option: string) => {
+    form.destinationAirportCode = option
+    showToDropdown.value = false
+  }
+
+  const hideToDropdown = () => {
+    setTimeout(() => {
+      showToDropdown.value = false
+    }, 100)
+  }
+
+  const showPlaneDropdown = ref(false)
+  const planeOptions = ref<string[]>([])
+
+  const selectPlaneOption = (option: string) => {
+    form.plane = option
+    showPlaneDropdown.value = false
+  }
+
+  const hidePlaneDropdown = () => {
+    setTimeout(() => {
+      showPlaneDropdown.value = false
+    }, 100)
+  }
   const handleSubmit = async () => {
     try {
       isSubmitting.value = true

@@ -12,7 +12,7 @@
                 v-model="form.cardTitle"
                 type="text" 
                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                placeholder="Enter flight number"
+                placeholder="Enter card title"
                 required
               />
             </div>
@@ -24,7 +24,7 @@
                 v-model="form.cardSubtitle"
                 type="text" 
                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                placeholder="Enter flight number"
+                placeholder="Enter card subtitle"
                 required
               />
             </div>
