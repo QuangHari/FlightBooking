@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gray-50 p-4">
+    <div class="min-h-screen w-full bg-gray-100 p-4">
       <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl">
         <div class="p-8">
           <h2 class="text-2xl font-bold text-[#4f4939] mb-6">Add new card</h2>

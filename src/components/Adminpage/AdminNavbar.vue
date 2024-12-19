@@ -15,19 +15,21 @@
 
         <!-- Middle section: Main navigation -->
         <div class="hidden lg:flex items-center gap-8">
-          <a 
+          <button 
             v-for="item in navigationItems" 
-            :key="item.id"
-            :href="'#' + item.id"
-            @click="scrollToSection(item.id)"
+            :key="item.name"
+            @click="navigateTo(item.path)"
             class="text-gray-700 hover:text-[#d0c5a4] font-medium transition-colors"
           >
-            {{ item.text }}
-          </a>
+            {{ item.name }}
+          </button>
         </div>
 
         <!-- Right section: Actions -->
         <div class="flex items-center gap-6">
+          <a href="#" class="text-gray-700 hover:text-[#d0c5a4] font-medium hidden sm:block">
+            Help
+          </a>
           <button class="text-gray-700 hover:text-[#d0c5a4]">
           </button>
           <div class="flex items-center gap-2 text-gray-700 hover:text-[#d0c5a4] cursor-pointer">
@@ -50,47 +52,25 @@
   </nav>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
+<script setup lang ="ts">  
+import { useRouter } from 'vue-router';
 
-const navigationItems = ref([
-  { id: 'add-flight', text: 'Add Flight' },
-  { id: 'add-plane', text: 'Add Plane' },
-  { id: 'publish-ad', text: 'Publish Ad' },
-  { id: 'edit-flight-info', text: 'Edit Flight Info' }
-]);
+const router = useRouter();
 
-const scrollToSection = (id: string) => {
-  setTimeout(() => {
-    const element = document.getElementById(id);
-    if (element) {
-      const navbarHeight = 80; // Adjust if your navbar height changes
-      const padding = 20; // Extra padding to ensure the element is not covered
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight - padding;
+const navigationItems = [
+  { name: 'Flights', path: '/admin' },
+  { name: 'Planes', path: '/admin/planes' },
+  { name: 'Advertisement', path: '/admin/advertisement' },
+];
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  }, 100); // Small delay to ensure layout calculations are complete
+const navigateTo = (path: string) => {
+  router.push(path);
 };
 </script>
 
-<script lang="ts">
-export default {
-  name: "AdminNavbar",
+
+<script lang = "ts">
+  export default {
+  name: "AdminFlightsNavbar",
 };
 </script>
-
-<style scoped>
-/* Add this style to create more space above the target elements */
-:deep(#add-flight),
-:deep(#add-plane),
-:deep(#publish-ad),
-:deep(#edit-flight-info) {
-  padding-top: 100px;
-  margin-top: -100px;
-}
-</style>

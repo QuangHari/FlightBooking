@@ -1,5 +1,4 @@
 <template>
-    <div class="min-h-screen bg-gray-50 p-4">
       <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl">
         <div class="p-8">
           <h2 class="text-2xl font-bold text-[#4f4939] mb-6">Add New Flight</h2>
@@ -200,7 +199,6 @@
           </div>
         </div>
       </div>
-    </div>
   </template>
   
   <script setup lang = "ts">

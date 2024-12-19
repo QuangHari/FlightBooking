@@ -5,8 +5,11 @@ import HomePage from '../views/Homepage.vue';
 import AuthorPage from '../views/Author.vue';
 import Flights from '../views/Flights.vue';
 import Admin from '../views/Admin.vue';
+import AdminPlanes from '../views/AdminPlanes.vue';
 import FlightStatus from '../views/FlightStatus.vue'
 import CheckOut from '../views/CheckOut.vue';
+import AdminFlights from '../views/AdminFlights.vue';
+import AdminAdvertisement from '../views/AdminAdvertisement.vue';
 
 const routes = [
   {
@@ -24,6 +27,20 @@ const routes = [
   {
     path: '/admin',
     component: Admin,
+    children: [
+      {
+        path: '',
+        component: AdminFlights,
+      },
+      {
+        path: 'planes',
+        component: AdminPlanes,
+      },
+      {
+        path: 'advertisement',
+        component: AdminAdvertisement,
+      }
+    ],
   },
   {
     path: '/status',
