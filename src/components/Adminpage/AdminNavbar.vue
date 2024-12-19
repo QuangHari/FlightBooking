@@ -71,6 +71,6 @@ const navigateTo = (path: string) => {
 
 <script lang = "ts">
   export default {
-  name: "AdminFlightsNavbar",
+  name: "AdminNavbar",
 };
 </script>

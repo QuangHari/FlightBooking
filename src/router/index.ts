@@ -10,6 +10,9 @@ import FlightStatus from '../views/FlightStatus.vue'
 import CheckOut from '../views/CheckOut.vue';
 import AdminFlights from '../views/AdminFlights.vue';
 import AdminAdvertisement from '../views/AdminAdvertisement.vue';
+import Profile from '../views/Profile.vue';
+import ProfileFlights from '../views/ProfileFlights.vue';
+import ProfileInformation from '../views/ProfileInformation.vue';
 
 const routes = [
   {
@@ -50,6 +53,20 @@ const routes = [
     path: '/checkout',
     component: CheckOut,
   },
+  {
+    path: '/profile',
+    component: Profile,
+    children: [
+      {
+        path: '',
+        component: ProfileInformation,
+      },
+      {
+        path: 'myflights',
+        component: ProfileFlights,
+      },
+    ],
+  }
 ];
 
 const router = createRouter({
