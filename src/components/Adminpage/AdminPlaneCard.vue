@@ -5,7 +5,7 @@
         <!-- Plane Name -->
         <div class="flex items-center justify-between">
           <div>
-            <h3 class="text-xl font-semibold text-gray-900">{{ planeName }}</h3>
+            <h3 class="text-xl font-semibold text-gray-900">{{ name }} </h3>
             <p class="text-sm text-gray-500">Aircraft Information</p>
           </div>
           <Plane class="w-6 h-6 text-gray-400" />
@@ -14,7 +14,7 @@
         <!-- Seats Information -->
         <div class="flex items-center space-x-2">
           <Users class="w-5 h-5 text-gray-400" />
-          <span class="text-gray-700">{{ numberOfSeats }} seats</span>
+          <span class="text-gray-700">{{ capacity }} seats</span>
         </div>
   
         <!-- Details Button -->
@@ -45,18 +45,18 @@
             <div class="space-y-4">
               <div class="flex items-center space-x-3">
                 <Plane class="w-8 h-8 text-[#4f4939]" />
-                <h3 class="text-2xl font-semibold text-gray-900">{{ planeName }}</h3>
+                <h3 class="text-2xl font-semibold text-gray-900">{{ name }}</h3>
               </div>
               
               <div class="flex items-center space-x-2 text-gray-600">
                 <Users class="w-5 h-5" />
-                <span>Capacity: {{ numberOfSeats }} seats</span>
+                <span>Capacity: {{ capacity }} seats</span>
               </div>
   
               <div class="mt-4">
                 <h4 class="text-lg font-medium text-gray-900 mb-2">Description</h4>
                 <p class="text-gray-600 leading-relaxed">
-                  {{ planeDescription }}
+                  {{ details }}
                 </p>
               </div>
             </div>
@@ -67,25 +67,28 @@
   </template>
   
   <script setup lang="ts">
-  import { ref } from 'vue'
+  import {  ref } from 'vue'
   import { Plane, Users, Info, X } from 'lucide-vue-next'
+
   
   // Props definition
-  defineProps({
-    planeName: {
+ defineProps({
+    name: {
       type: String,
       required: true
     },
-    numberOfSeats: {
+    capacity: {
       type: Number,
       required: true
     },
-    planeDescription: {
+    details: {
       type: String,
       required: true
     }
   })
   
+
+ 
   const showModal = ref(false)
   </script>
   

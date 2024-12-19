@@ -15,9 +15,9 @@ export const createPlane = async (planeData: CreatePlaneInput): Promise<any> => 
   }
 };
 
-export const fetchAllPlanes = async (): Promise<any[]> => {
+export const fetchAllPlanes = async (): Promise<any> => {
   try {
-    const response = await apiClient.get<any[]>("/planes");
+    const response = await apiClient.get<any>("/planes");
     return response.data;
   } catch (error: any) {
     throw new Error("An error occurred while fetching planes");

@@ -14,7 +14,6 @@ apiClient.interceptors.request.use(
   (request) => {
     const authStore = useAuthStore();
     const token = authStore.accessToken;
-    console.log("Token", token);
     if (token) {
       request.headers['Authorization'] = `Bearer ${token}`;
     }

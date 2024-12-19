@@ -98,24 +98,13 @@
               </div>
             </div>
   
-            <!-- Available Seats and Plane info -->
-            <div class="space-y-1">
-              <label class="text-sm text-gray-500">Available Seats</label>
-              <input 
-                v-model.number="form.availableSeats"
-                type="number" 
-                min="0"
-                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
-                placeholder="Enter number of available seats"
-                required
-              />
-            </div>
+            
 
             <div class="space-y-1">
               <label class="text-sm text-gray-500">Plane</label>
               <input 
                   v-model="form.plane"
-                  type="text" 
+                  type="option" 
                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
                   placeholder="City or airport"
                   @focus="showPlaneDropdown = true"
@@ -130,7 +119,7 @@
                       @mousedown="selectPlaneOption(option)"
                       class="p-2 hover:bg-gray-100 cursor-pointer"
                     >
-                      {{ option }}
+                      {{ option.Name}}
                     </div>
                   </div>
                 </div>
@@ -147,6 +136,18 @@
                 required
               />
             </div>
+           
+            <div class="space-y-1">
+                <label class="text-sm text-gray-500">Available Economy Seats</label>
+                <input 
+                  v-model.number="form.economySeats"
+                  type="number" 
+                  min="0"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
+                  placeholder="Enter number of available seats"
+                  required
+                />
+              </div>
 
             <div class="space-y-1">
               <label class="text-sm text-gray-500">First Class Price</label>
@@ -160,6 +161,17 @@
               />
             </div>
 
+            <div class="space-y-1">
+                <label class="text-sm text-gray-500">Available First Class Seats</label>
+                <input 
+                  v-model.number="form.firstClassSeats"
+                  type="number" 
+                  min="0"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
+                  placeholder="Enter number of available seats"
+                  required
+                />
+              </div>
             <div class="flex justify-end gap-4">
               <button
                 type="button"
@@ -202,18 +214,26 @@
   </template>
   
   <script setup lang = "ts">
-  import { ref, reactive } from 'vue'
+  import { ref, reactive ,onMounted} from 'vue'
   import Datepicker from '@vuepic/vue-datepicker'
   import '@vuepic/vue-datepicker/dist/main.css'
   import { CheckCircle } from 'lucide-vue-next'
-  
+  import {fetchAllAirports } from '../../api/airport'
+  import {fetchAllPlanes } from '../../api/plane'
+  import {createFlight, CreateFlightInput} from '../../api/flight'
+
+  const emit = defineEmits(['flight-added'])
+
+
   const form = reactive({
     flightNumber: '',
     departureDateTime: null,
     arrivalDateTime: null,
     originAirportCode: '',
     destinationAirportCode: '',
-    availableSeats: null,
+    economySeats: null, 
+    firstClassSeats: null,
+
     plane: null as string | null,
     economyPrice: null,
     firstClassPrice: null
@@ -250,10 +270,10 @@
   }
 
   const showPlaneDropdown = ref(false)
-  const planeOptions = ref<string[]>([])
+  const planeOptions = ref<{ Name: string, AircraftID: string }[]>([])
 
-  const selectPlaneOption = (option: string) => {
-    form.plane = option
+  const selectPlaneOption = (option: { Name: string, AircraftID: string }) => {
+    form.plane = option.Name
     showPlaneDropdown.value = false
   }
 
@@ -266,16 +286,29 @@
     try {
       isSubmitting.value = true
       
-      // Here you would typically make an API call to save the flight
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Simulated API call
-      
-      console.log('Submitted flight:', form)
+      const newFlight: CreateFlightInput = {
+        flightNumber: form.flightNumber,
+        departureDateTime: form.departureDateTime!,
+        arrivalDateTime: form.arrivalDateTime!,
+        originAirportCode: form.originAirportCode,
+        destinationAirportCode: form.destinationAirportCode,
+        availableSeats: (form.economySeats ?? 0) + (form.firstClassSeats ?? 0), // Sum of seats
+        aircraftID: Number(planeOptions.value.find(plane => plane.Name === form.plane)?.AircraftID) || 0,
+        businessPrice: form.firstClassPrice ?? 0,
+        businessSeats: form.firstClassSeats ?? 0,
+        economyPrice: form.economyPrice ?? 0,
+        economySeats: form.economySeats ?? 0,
+      };
+
+      console.log(newFlight)
+      const createFlightResponse = await createFlight(newFlight)
       showSuccess.value = true
       resetForm()
+      emit('flight-added', createFlightResponse)
     } catch (error) {
       console.error('Error adding flight:', error)
     } finally {
-      form.plane = null
+      isSubmitting.value = false
     }
   }
   
@@ -285,11 +318,24 @@
     form.arrivalDateTime = null
     form.originAirportCode = ''
     form.destinationAirportCode = ''
-    form.availableSeats = null
+    form.economySeats = null
+    form.firstClassSeats = null
     form.plane = null
     form.economyPrice = null
     form.firstClassPrice = null
   }
+
+  const fetchAllData = async () => {
+    const response = await fetchAllAirports()
+    fromOptions.value = response.airports.map((airport: {AirportCode : string}) => airport.AirportCode)
+    toOptions.value = response.airports.map((airport: { AirportCode: string }) => airport.AirportCode)
+    const response2 = await fetchAllPlanes()
+    planeOptions.value = response2.planes.map((plane: { Name: string, AircraftID: string }) => ({ Name: plane.Name, AircraftID: plane.AircraftID }))
+  }
+
+  onMounted(() => {
+    fetchAllData()
+  })
   </script>
   
   <script lang = "ts">

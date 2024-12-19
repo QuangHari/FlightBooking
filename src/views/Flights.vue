@@ -17,12 +17,12 @@
   </template>
   
   <script setup lang="ts">
-  import { ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import Navbar from '../components/shared/Navbar.vue'
   import FlightCard from '../components/Flightspage/FlightCard.vue'
   import FooterBar from '../components/shared/FooterBar.vue';
   import FlightSearchBar from '../components/Flightspage/FlightSearchBar.vue';
-  
+  import { searchFlights } from '../api/flight';
   interface Flight {
     departureTime: string
     arrivalTime: string
@@ -94,6 +94,16 @@
       businessPrice: 14500000
     }
   ])
+
+
+  const fetchAllData = async () => {
+    const response = await searchFlights()
+    flights.value = response.data
+  }
+
+  onMounted(() => {
+    fetchAllData()
+  })
   </script>
   
   <script lang="ts">

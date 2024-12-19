@@ -14,8 +14,10 @@
         <div class="grid grid-cols-1 gap-6">
           <AdminPlaneCard
             v-for="plane in planes"
-            :key="plane.planeName"
-            v-bind="plane"
+            :key="plane.AircraftID "
+            :name="plane.Name || ''"
+            :capacity="plane.Capacity || 0"
+            :details="plane.Details || ''" 
           />
         </div>
       </div>
@@ -45,33 +47,20 @@
 
 <script setup lang = "ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import AdminNavbar from '@/components/Adminpage/AdminNavbar.vue';
-import AdminPlaneCard from '@/components/Adminpage/AdminPlaneCard.vue';
-import PlaneInfoForm from '@/components/Adminpage/PlaneInfoForm.vue';
+import AdminNavbar from '../components/Adminpage/AdminNavbar.vue';
+import AdminPlaneCard from '../components/Adminpage/AdminPlaneCard.vue';
+import PlaneInfoForm from '../components/Adminpage/PlaneInfoForm.vue';
+import {fetchAllPlanes} from '../api/plane';
 
 interface Plane {
-    planeName: string
-    numberOfSeats: number
-    planeDescription: string
+  AircraftID: number
+  Name: string | null
+  Capacity: number | null
+  Details?: string
+
   }
 
-const planes = ref<Plane[]>([
-    {
-        planeName: "Boeing 777-300ER",
-        numberOfSeats: 396,
-        planeDescription: "The Boeing 777 is a wide-body airliner developed and manufactured by Boeing Commercial Airplanes. It is the world's largest twinjet. The 777 was designed to bridge the gap between Boeing's other wide-body airliners and Airbus's A340 and A380. The 777-300ER, which first entered service in 2004, is the most successful variant of the 777 family and is the world's largest long-range twin-engine jetliner. It has a maximum takeoff weight of 775,000 pounds (351,534 kg) and a range of 7,370 nautical miles (13,650 km)."
-    },
-    {
-        planeName: "Airbus A380-800",
-        numberOfSeats: 853,
-        planeDescription: "The Airbus"
-    },
-    {
-        planeName: "Boeing 777-300ER", 
-        numberOfSeats: 396,
-        planeDescription: "The Boeing 777 is a wide-body airliner developed and manufactured by Boeing Commercial Airplanes. It is the world's largest twinjet. The 777 was designed to bridge the gap between Boeing's other wide-body airliners and Airbus's A340 and A380. The 777-300ER, which first entered service in 2004, is the most successful variant of the 777 family and is the world's largest long-range twin-engine jetliner. It has a maximum takeoff weight of 775,000 pounds (351,534 kg) and a range of 7,370 nautical miles (13,650 km)."
-    },
-  ])
+const planes = ref<Plane[]>([])
 
   const showAddPlaneModal = ref(false)
   
@@ -87,10 +76,23 @@ const planes = ref<Plane[]>([
   
   const handlePlaneAdded = (newPlane: Plane) => {
     planes.value.push(newPlane)
-    closeAddPlaneModal()
+    console.log('New Plane:', newPlane)
+    // closeAddPlaneModal()
+
+    
   }
   
+
+  const fetchAllData = async () => {
+    try {
+      const response = await fetchAllPlanes()
+      planes.value = response.planes
+    } catch (error) {
+      console.error('Error fetching planes:', error)
+    }
+  }
   onMounted(() => {
+    fetchAllData()
     if (showAddPlaneModal.value) {
       document.body.style.overflow = 'hidden'
     }

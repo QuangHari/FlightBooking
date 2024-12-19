@@ -96,21 +96,23 @@
   
   const isSubmitting = ref(false)
   const showSuccess = ref(false)
-  
+  const emit = defineEmits(['plane-added'])
+
   const handleSubmit = async () => {
     try {
       isSubmitting.value = true
       
     
-      await createPlane({
+      const newPlane  = await createPlane({
         name: form.name,
         capacity: form.availableSeats,
         details : form.description,
       });
-      
+
       
       showSuccess.value = true
       resetForm()
+      emit('plane-added', newPlane.plane)
     } catch (error) {
       console.error('Error adding plane:', error)
     } finally {
