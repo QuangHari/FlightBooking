@@ -179,10 +179,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { PencilIcon, XIcon } from 'lucide-vue-next'
-import { emit } from 'process';
+
 
 const isModalOpen = ref(false)
 const firstName = ref('')
@@ -234,9 +234,9 @@ const handleSubmit = () => {
 
   
 }
-</script>
+</script >
 
-<script>
+<script lang="ts">
 export default {
   name: 'CustomerDetailsCard',
 };

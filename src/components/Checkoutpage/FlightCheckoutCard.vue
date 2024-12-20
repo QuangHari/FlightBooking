@@ -74,7 +74,7 @@
               <img src="../../assets/MainLogo_shadow.png" alt="Airline Logo" class="h-6" />
               <div>
                 <p class="font-bold">{{ flightNumber }}</p>
-                <p class="text-gray-600">{{ aircraft }}</p>
+                <p class="text-gray-600">{{ plane }}</p>
                 <p class="text-gray-600">{{ operator }}</p>
               </div>
             </div>
@@ -95,7 +95,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { ChevronRightIcon, XIcon } from 'lucide-vue-next'
 
@@ -118,18 +118,10 @@ const props = defineProps({
 // Modal state
 const isModalOpen = ref(false)
 
-// Date formatter
-const formatDate = (date) => {
-  return new Intl.DateTimeFormat('en-US', {
-    weekday: 'short',
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  }).format(date)
-}
+
 </script>
 
-<script>
+<script lang="ts">
 export default {
   name: 'FlightCheckoutCard',
 };
