@@ -100,7 +100,7 @@ import { ref } from 'vue'
 import { ChevronRightIcon, XIcon } from 'lucide-vue-next'
 
 // Props definition
-const props = defineProps({
+defineProps({
   departureCity: { type: String, required: true },
   arrivalCity: { type: String, required: true },
   departureTime: { type: String, required: true },
@@ -110,8 +110,8 @@ const props = defineProps({
   flightNumber: { type: String, required: true },
   plane: { type: String, required: true },
   operator: { type: String, required: true },
-  flightDate: { type: Date, required: true },
-  price: { type: Number, required: true },
+  flightDate: { type: String, required: true },
+  price: { type: String, required: true },
   duration: { type: String, required: true }
 })
 

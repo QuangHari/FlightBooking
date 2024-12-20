@@ -31,7 +31,7 @@
     import { useRoute } from 'vue-router';
 
     const route = useRoute();
-    const flightDetails = route.query;
+    const flightDetails = route.query as { [key: string]: string };
 
     // console.log(flightDetails.Price);
 

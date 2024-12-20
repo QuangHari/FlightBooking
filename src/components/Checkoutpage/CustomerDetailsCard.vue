@@ -184,6 +184,10 @@ import { ref, computed } from 'vue'
 import { PencilIcon, XIcon } from 'lucide-vue-next'
 
 
+const emit = defineEmits<{
+  (event: 'submit', form: any): void;
+}>();
+
 const isModalOpen = ref(false)
 const firstName = ref('')
 const lastName = ref('')
@@ -231,7 +235,7 @@ const handleSubmit = () => {
   firstName.value = form.value.firstName
   lastName.value = form.value.lastName
   isModalOpen.value = false
-
+  emit('submit', form.value);
   
 }
 </script >
