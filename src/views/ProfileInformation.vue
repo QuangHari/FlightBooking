@@ -5,7 +5,6 @@
         <h1 class="text-3xl font-bold text-gray-900 mb-8">My Personal Information</h1>
         <ProfileCard 
           :title="profileData.title"
-          :gender="profileData.gender"
           :firstName="profileData.firstName"
           :lastName="profileData.lastName"
           :birthDay="profileData.birthDay"
@@ -29,7 +28,6 @@
   
   interface ProfileData {
     title: string;
-    gender: string;
     firstName: string;
     lastName: string;
     birthDay: string;
@@ -44,7 +42,6 @@
   
   const profileData = reactive<ProfileData>({
     title: '',
-    gender: '',
     firstName: '',
     lastName: '',
     birthDay: '',

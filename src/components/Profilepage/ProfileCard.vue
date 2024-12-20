@@ -26,12 +26,6 @@
           <p class="text-gray-900 font-medium">{{ profileData.title || '-' }}</p>
         </div>
 
-        <!-- Gender -->
-        <div class="space-y-1">
-          <label class="text-sm text-gray-500">Gender</label>
-          <p class="text-gray-900 font-medium">{{ profileData.gender || '-' }}</p>
-        </div>
-
         <!-- First Name -->
         <div class="space-y-1">
           <label class="text-sm text-gray-500">First Name</label>
@@ -101,7 +95,6 @@ import CustomerDetailsCard from '../Checkoutpage/CustomerDetailsCard.vue'
 
 interface ProfileData {
   title: string;
-  gender: string;
   firstName: string;
   lastName: string;
   birthDay: string;
@@ -116,7 +109,6 @@ interface ProfileData {
 
 const profileData = reactive<ProfileData>({
   title: '',
-  gender: '',
   firstName: '',
   lastName: '',
   birthDay: '',
