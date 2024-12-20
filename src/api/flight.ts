@@ -15,10 +15,14 @@ export interface CreateFlightInput {
 }
 export const searchFlights = async (from: string, to: string, departureDate: string): Promise<any> => {
   try {
-    const response = await apiClient.get<any>("/flights/search");
+    const response = await apiClient.post<any>("/flights/search", {
+      origin: from,
+      destination: to,
+      startDate: departureDate,
+    });
     return response.data;
   } catch (error: any) {
-    throw new Error("An error occurred while fetching airports");
+    throw new Error("An error occurred while searching for flights");
   }
 };
 

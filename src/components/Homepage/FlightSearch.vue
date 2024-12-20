@@ -535,8 +535,8 @@ const fetchAllData = async () => {
     const airports = data.airports;  
 
     if (Array.isArray(airports)) {
-      fromOptions.value = airports.map((airport: { Location: string }) => airport.Location);
-      toOptions.value = airports.map((airport: { Location: string }) => airport.Location);
+      fromOptions.value = airports.map((airport: { AirportCode: string }) => airport.AirportCode);
+      toOptions.value = airports.map((airport: { AirportCode: string }) => airport.AirportCode);
     } else {
       console.error("Unexpected data format from API");
     }

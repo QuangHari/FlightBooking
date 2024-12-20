@@ -1,6 +1,6 @@
 import express from 'express';
 import { createFlight, getFlightById, searchFlights ,getAllFlights} from '../services/flight.service';
-import { log } from 'winston';
+import logger from '../utils/winston';
 
 const router = express.Router();
 
@@ -63,10 +63,11 @@ router.get('/', async (req, res) => {
 });
 
 // Endpoint để tìm kiếm các chuyến bay
-router.get('/search', async (req, res) => {
+router.post('/search', async (req, res) => {
   try {
     const { origin, destination, startDate } = req.body;
-      
+    logger.info(`Searching flights from ${origin} to ${destination} starting from ${startDate}`);
+          
     let parsedStartDate;
     if (startDate) {
       parsedStartDate = new Date(startDate as string);
@@ -75,8 +76,13 @@ router.get('/search', async (req, res) => {
     const flights = await searchFlights(origin as string, destination as string, parsedStartDate);
     res.status(200).json(flights);
   } catch (error) {
+    logger.error(`Error searching flights: ${(error as Error).message}`);
     res.status(400).json({ error: (error as Error).message });
   }
 });
+
+
+
+
 
 export default router;

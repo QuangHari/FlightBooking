@@ -140,10 +140,24 @@
 
   }
 
-  export const searchFlights = async (origin: string, destination: string, startDate?: Date) => {
-    logger.info(`Searching flights from ${origin} to ${destination} starting from ${startDate ? startDate.toISOString() : 'any date'}`);
+  export const searchFlights = async (
+    origin: string,
+    destination: string,
+    startDate?: Date
+  ) => {
+    // Validate input parameters
+    if (!origin || !destination) {
+      throw new Error('Both origin and destination airport codes are required.');
+    }
+  
+    logger.info(
+      `Searching flights from ${origin} to ${destination} starting from ${
+        startDate ? startDate.toISOString() : 'any date'
+      }`
+    );
   
     try {
+      // Build dynamic query
       const flights = await prisma.flight.findMany({
         where: {
           OriginAirportCode: origin,
@@ -168,7 +182,7 @@
           Aircraft: {
             select: {
               AircraftID: true,
-              Name: true,  // Đảm bảo rằng Name của Aircraft luôn được bao gồm
+              Name: true, // Ensure this field is always populated in the DB
             },
           },
           Seats: true,
@@ -176,14 +190,24 @@
       });
   
       if (flights.length === 0) {
-        logger.warn(`No flights found for origin: ${origin}, destination: ${destination}, startDate: ${startDate ? startDate.toISOString() : 'any date'}`);
-        throw new Error('No flights found');
+        logger.warn(
+          `No flights found for origin: ${origin}, destination: ${destination}, startDate: ${
+            startDate ? startDate.toISOString() : 'any date'
+          }`
+        );
+        return []; // Return empty array instead of throwing an error
       }
   
       logger.info('Flights retrieved successfully');
       return flights;
     } catch (error) {
-      logger.error('Error searching for flights', { origin, destination, startDate, error: (error as Error).message });
-      throw error;
+      logger.error('Error searching for flights', {
+        origin,
+        destination,
+        startDate,
+        error: (error as Error).message,
+      });
+      throw new Error('An error occurred while searching for flights. Please try again.');
     }
   };
+  

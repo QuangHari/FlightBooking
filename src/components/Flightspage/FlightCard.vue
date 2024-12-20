@@ -184,6 +184,7 @@
       >
       <div class="bg-white rounded-lg w-full max-w-lg overflow-hidden">
         <FlightCheckoutCard 
+        :FlightID="FlightID"
         :departureCity="departureCity"
         :arrivalCity="arrivalCity"
         :departureTime="departureTime"
@@ -212,6 +213,7 @@ import FlightCheckoutCard from '../Checkoutpage/FlightCheckoutCard.vue'
 
 // Props definition
 const props = defineProps({
+  FlightID : { type: Number, required: true},
   departureTime: { type: String, required: true },
   arrivalTime: { type: String, required: true },
   departureAirport: { type: String, required: true },

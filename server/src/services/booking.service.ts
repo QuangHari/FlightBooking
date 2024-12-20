@@ -1,15 +1,17 @@
 import prisma from '../utils/prisma';
+import logger from '../utils/winston';
 
 export interface CreateBookingInput {
   flightId: number;
   passengerId: number;
   paymentStatus: string;
-  seatNumbers: string[]; 
+  economySeats: number; 
+  businessSeats: number;
 }
 
 export const createBooking = async (data: CreateBookingInput) => {
-  const { flightId, passengerId, paymentStatus, seatNumbers } = data;
-
+  const { flightId, passengerId, paymentStatus, economySeats, businessSeats } = data;
+  logger.info(`Creating booking for flightId: ${flightId}, passengerId: ${passengerId}`);
   // Kiểm tra flight tồn tại
   const flight = await prisma.flight.findUnique({ where: { FlightID: flightId } });
   if (!flight) {
@@ -22,13 +24,9 @@ export const createBooking = async (data: CreateBookingInput) => {
     throw new Error('Passenger not found');
   }
 
-  // Kiểm tra ghế có hợp lệ không
-  const availableSeats = await prisma.seat.findMany({
-    where: { FlightID: flightId, SeatNumber: { in: seatNumbers }, IsBooked: false },
-  });
-
-  if (availableSeats.length !== seatNumbers.length) {
-    throw new Error('One or more selected seats are already booked or invalid');
+  // Trừ số lượng ghế từ bảng flight
+  if (flight.EconomySeats < economySeats || flight.BusinessSeats < businessSeats) {
+    throw new Error('One or more selected seats are already booked or insufficient availability');
   }
 
   // Tạo booking
@@ -37,40 +35,55 @@ export const createBooking = async (data: CreateBookingInput) => {
       FlightID: flightId,
       PassengerID: passengerId,
       PaymentStatus: paymentStatus,
-      EconomyPrice: 0, 
-      BusinessPrice: 0,
-      EconomySeats: 0, 
-      BusinessSeats: 0, 
-      Seats: {
-        connect: availableSeats.map((seat) => ({ SeatID: seat.SeatID })),
-      },
+      EconomySeats: economySeats, 
+      BusinessSeats: businessSeats, 
+      EconomyPrice: flight.EconomyPrice * economySeats,
+      BusinessPrice: flight.BusinessPrice * businessSeats,
     },
   });
 
-  // Cập nhật trạng thái ghế đã được đặt
-  await prisma.seat.updateMany({
-    where: { SeatID: { in: availableSeats.map((seat) => seat.SeatID) } },
-    data: { IsBooked: true },
+  // Cập nhật trạng thái ghế đã được đặt trực tiếp từ bảng flight (nếu cần thiết)
+  // Trong trường hợp cần cập nhật trạng thái ghế, bạn có thể thực hiện cập nhật trực tiếp như:
+  await prisma.flight.update({
+    where: { FlightID: flightId },
+    data: {
+      EconomySeats: flight.EconomySeats - economySeats,
+      BusinessSeats: flight.BusinessSeats - businessSeats,
+    },
   });
 
   return booking;
 };
 
 export const getBookingById = async (bookingId: number) => {
-    const booking = await prisma.booking.findUnique({ 
-      where: { BookingID: bookingId },
-      include: {
-        Flight: true,
-        Passenger: true,
-        Seats: true,
-      }
-    });
-  
-    if (!booking) {
-      throw new Error('Booking not found');
+  const booking = await prisma.booking.findUnique({ 
+    where: { BookingID: bookingId },
+    include: {
+      Flight: true,
+      Passenger: true,
+      Seats: true,
     }
-  
-    return booking;
-  };
-  
+  });
 
+  if (!booking) {
+    throw new Error('Booking not found');
+  }
+
+  return booking;
+};
+
+export const getBookingsByUserId = async (userId: number) => {
+  const bookings = await prisma.booking.findMany({ 
+    where: { PassengerID: userId },
+    include: {
+      Flight: true,
+      Passenger: true,
+    }
+  });
+
+  if (!bookings || bookings.length === 0) {
+    throw new Error('No bookings found for this user');
+  }
+
+  return bookings;
+};

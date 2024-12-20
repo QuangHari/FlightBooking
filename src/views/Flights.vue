@@ -6,7 +6,8 @@
         <FlightSearchBar class="mb-8" />
         <div class="grid grid-cols-1 gap-6">
           <FlightCard v-for="flight in flights" 
-        :key="flight.FlightID" 
+          :key="flight.FlightID" 
+          :FlightID="flight.FlightID"
         :departureTime = "flight.DepartureDateTime" 
         :arrivalTime = "flight.ArrivalDateTime"
         :departureAirport = "flight.OriginAirportCode"
@@ -40,9 +41,9 @@
   import { useRoute } from 'vue-router'
 
   const route = useRoute()
-  const from = route.query.from || ''
-  const to = route.query.to || ''
-  const departureDate = route.query.departureDate || ''
+  const from = (route.query.from as string) || ''
+  const to = (route.query.to as string) || ''
+  const departureDate = (route.query.departureDate as string) || ''
 
   const formatTime = (isoString: string): string => {
     return dayjs(isoString).format('HH:mm');
@@ -82,7 +83,17 @@ const calculateDuration = (departure: string, arrival: string): string => {
 
 
   const fetchAllData = async () => {
-    const response: Flight[] = await getAllFlight(); 
+    // const response: Flight[] = await getAllFlight(); 
+    // flights.value = response.map((flight: Flight) => ({
+    //   ...flight,
+    //   Date: dayjs(flight.DepartureDateTime).format('YYYY-MM-DD'),  // Định dạng ngày khởi hành
+    //   Duration: calculateDuration(flight.DepartureDateTime, flight.ArrivalDateTime),  // Tính toán thời gian bay
+    //   DepartureDateTime: formatTime(flight.DepartureDateTime),
+    //   ArrivalDateTime: formatTime(flight.ArrivalDateTime),
+    // }));
+
+    const response: Flight[] = await searchFlights(from, to, departureDate);
+    
     flights.value = response.map((flight: Flight) => ({
       ...flight,
       Date: dayjs(flight.DepartureDateTime).format('YYYY-MM-DD'),  // Định dạng ngày khởi hành
@@ -90,8 +101,7 @@ const calculateDuration = (departure: string, arrival: string): string => {
       DepartureDateTime: formatTime(flight.DepartureDateTime),
       ArrivalDateTime: formatTime(flight.ArrivalDateTime),
     }));
-
-    // const response: Flight[] = await searchFlights(from, to, departureDate);
+    console.log( flights.value)
   }
 
   onMounted(() => {

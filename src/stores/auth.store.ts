@@ -20,8 +20,9 @@ interface AuthState {
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
+
     accessToken: localStorage.getItem("accessToken") || null,
-    passenger: null,
+    passenger:  null,
     isAuthenticated: false,
     isAdmin: localStorage.getItem("isAdmin") 
     ? JSON.parse(localStorage.getItem("isAdmin")!) 
@@ -37,10 +38,10 @@ export const useAuthStore = defineStore("auth", {
         this.accessToken = response.token;
 
         this.passenger = response.passenger;
-
         this.isAuthenticated = true;
         this.isAdmin = response.passenger.isAdmin;
-
+        
+        localStorage.setItem("passengerId", response.passenger.PassengerID.toString())
         localStorage.setItem("accessToken", response.token);
         localStorage.setItem("isAdmin", JSON.stringify(response.passenger.isAdmin));
 

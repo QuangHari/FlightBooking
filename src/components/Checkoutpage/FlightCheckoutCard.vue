@@ -74,7 +74,9 @@
     </button>
 
     <!-- Continue Button -->
-    <button class="w-full bg-[#4f4939] text-white py-4 rounded-full hover:bg-[#d0c5a4] transition-colors">
+    <button 
+    @click="handleBooking"
+    class="w-full bg-[#4f4939] text-white py-4 rounded-full hover:bg-[#d0c5a4] transition-colors">
       Book Now
     </button>
 
@@ -135,11 +137,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { ChevronRightIcon, XIcon } from 'lucide-vue-next'
-
+import {createBooking} from '../../api/booking'
+import { message } from 'ant-design-vue';
+import {useAuthStore} from '../../stores/auth.store'
 // Props definition
 const props = defineProps({
+  FlightID : {type: Number, required: true},
   departureCity: { type: String, required: true },
   arrivalCity: { type: String, required: true },
   departureTime: { type: String, required: true },
@@ -155,6 +160,9 @@ const props = defineProps({
   duration: { type: String, required: true }
 })
 
+
+const passengerId = window.localStorage.getItem("passengerId");
+const passengerIdNumber = passengerId ? parseInt(passengerId, 10) : null;
 // Modal state
 const isModalOpen = ref(false)
 
@@ -167,6 +175,33 @@ const economyTotal = computed(() => props.economyPrice * economyPassengers.value
 const businessTotal = computed(() => props.businessPrice * businessPassengers.value)
 const grandTotal = computed(() => economyTotal.value + businessTotal.value)
 
+
+const handleBooking = async () => {
+  try {
+    if (passengerIdNumber === null) {
+      throw new Error('Passenger ID is missing');
+    }
+    // Dữ liệu booking mẫu (có thể lấy từ form hoặc dữ liệu người dùng nhập vào)
+    const bookingData = {
+      flightId: props.FlightID,
+      passengerId: passengerIdNumber,
+      paymentStatus: "Paid",
+      economySeats: economyPassengers.value,
+      businessSeats: businessPassengers.value
+    };
+   
+    const response = await createBooking(bookingData);
+    message.success("add success")
+    // Xử lý kết quả thành công
+    // console.log('Booking created:', response);
+    
+  } catch (error: any) {
+    // Xử lý lỗi
+    console.error('Error creating booking:', error.message);
+  }
+};
+
+
 // Date formatter
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('en-US', {
@@ -176,6 +211,13 @@ const formatDate = (date: Date) => {
     year: 'numeric'
   }).format(date)
 }
+
+onMounted(() => {
+  // Your code here
+  console.log("detail", props)
+})
+
+
 </script>
 
 <script lang="ts">
