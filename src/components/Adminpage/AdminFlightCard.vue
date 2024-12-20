@@ -39,21 +39,11 @@
       <!-- Fare Options -->
       <div class="ml-auto grid grid-cols-2 gap-4">
         <button 
-          @click="showFareDetails('economy')"
           class="text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
         >
-          <div class="text-sm text-gray-600 mb-1">Economy</div>
+          <div class="text-sm text-gray-600 mb-1">Flight Number</div>
           <div class="text-lg md:text-2xl font-semibold">
-            VND {{ economyPrice.toLocaleString() }}
-          </div>
-        </button>
-        <button 
-          @click="showFareDetails('business')"
-          class="text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-        >
-          <div class="text-sm text-gray-600 mb-1">Business</div>
-          <div class="text-lg md:text-2xl font-semibold">
-            VND {{ businessPrice.toLocaleString() }}
+             {{ flightNumber }}
           </div>
         </button>
       </div>
@@ -145,56 +135,6 @@
           </div>
         </div>
       </Teleport>
-  
-      <!-- Fare Details Modal -->
-      <Teleport to="body">
-        <div 
-          v-if="selectedFare"
-          class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-          @click.self="selectedFare = null"
-        >
-          <div class="bg-white rounded-lg w-full max-w-xl overflow-hidden p-6">
-            <div class="mb-6">
-              <div v-if="getCurrentFare" class="text-sm text-gray-600">{{ getCurrentFare.flexibility }}</div>
-              <h3 v-if="getCurrentFare" class="text-3xl font-light mb-4">{{ getCurrentFare.name }}</h3>
-              <div class="flex justify-between items-baseline">
-                <div class="text-sm text-gray-600">Total for all passengers</div>
-                <div class="flex items-baseline gap-2">
-                  <span class="text-lg text-gray-600">VND</span>
-                  <span class="text-4xl font-light">{{ getCurrentFare?.price.toLocaleString() }}</span>
-                </div>
-              </div>
-            </div>
-  
-            <button 
-              @click="$router.push('/checkout')"
-              class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium"
-            >
-              Select fare
-            </button>
-  
-            <div class="flex items-center gap-2 mb-6">
-              <Plane class="w-5 h-5" />
-              <span v-if="getCurrentFare">Earn {{ getCurrentFare.avios.toLocaleString() }} Avios</span>
-            </div>
-  
-            <div class="text-lg mb-4">Benefits and fees per adult passenger</div>
-            <div class="space-y-4">
-              <div v-for="(benefit, index) in getCurrentFare?.benefits" :key="index" class="flex items-center gap-3">
-                <component :is="benefit.icon" class="w-6 h-6 text-gray-600" />
-                <span class="text-gray-700">{{ benefit.text }}</span>
-                <InfoIcon v-if="benefit.hasInfo" class="w-5 h-5 text-gray-400" />
-              </div>
-            </div>
-  
-            <div class="mt-8 pt-6 border-t text-center">
-              <a href="#" class="text-[#4f4939] hover:text-[#d0c5a4] font-medium text-lg">
-                Online-exclusive benefits
-              </a>
-            </div>
-          </div>
-        </div>
-      </Teleport>
     </div>
   </template>
   
@@ -225,9 +165,7 @@
   // Modal states
   const showDetails = ref(false)
   const showEditForm = ref(false)
-  const selectedFare = ref(null)
-  const selectedFareTab = ref('economy_convenience')
-  
+
   // Computed date format
   const formattedDate = computed(() => {
     return new Date(props.date).toLocaleDateString('en-US', {
@@ -237,66 +175,6 @@
       year: 'numeric'
     })
   })
-  
-  const fareOptions = [
-    {
-      type: 'economy_convenience',
-      name: 'Economy Convenience',
-      flexibility: 'Great flexibility',
-      price: props.economyPrice,
-      avios: Math.round(props.economyPrice * 1.268),
-      benefits: [
-        { icon: Calendar, text: 'Flexibility to make 2 changes', hasInfo: true },
-        { icon: Ban, text: 'Cancellation within 24hrs of booking without fees', hasInfo: true },
-        { icon: Briefcase, text: 'Checked baggage: 2 pieces, 23 kg each' },
-        { icon: Luggage, text: 'Hand baggage: 1 piece, 7 kg' },
-        { icon: Armchair, text: 'Standard Seat selection included', hasInfo: true },
-        { icon: Armchair, text: 'Preferred Seat selection for a fee', hasInfo: true },
-        { icon: CreditCard, text: 'Upgrade with Avios' }
-      ]
-    },
-    {
-      type: 'economy_comfort',
-      name: 'Economy Comfort',
-      flexibility: 'Unlimited flexibility',
-      price: Math.round(props.economyPrice * 1.1162),
-      avios: Math.round(props.economyPrice * 1.691),
-      benefits: [
-        { icon: Calendar, text: 'Flexibility to make unlimited changes', hasInfo: true },
-        { icon: Ban, text: 'Cancel at anytime without fees' },
-        { icon: Briefcase, text: 'Checked baggage: 2 pieces, 23 kg each' },
-        { icon: Luggage, text: 'Hand baggage: 1 piece, 7 kg' },
-        { icon: Armchair, text: 'Standard Seat selection included', hasInfo: true },
-        { icon: Armchair, text: 'Preferred Seat selection included', hasInfo: true },
-        { icon: CreditCard, text: 'Upgrade with Avios' }
-      ]
-    },
-    {
-      type: 'business',
-      name: 'Business Comfort',
-      flexibility: 'Ultimate comfort',
-      price: props.businessPrice,
-      avios: Math.round(props.businessPrice * 0.882),
-      benefits: [
-        { icon: Calendar, text: 'Flexibility to make unlimited changes', hasInfo: true },
-        { icon: Ban, text: 'Cancel at anytime without fees' },
-        { icon: Briefcase, text: 'Checked baggage: 2 pieces, 32 kg each' },
-        { icon: Luggage, text: 'Hand baggage: 2 pieces, 7 kg each' },
-        { icon: Armchair, text: 'Business Class seat selection included' },
-        { icon: CreditCard, text: 'Upgrade with Avios to First Class where available' }
-      ]
-    }
-  ]
-  
-  const getCurrentFare = computed(() => {
-    const fareType = selectedFare.value === 'business' ? 'business' : 'economy_convenience'
-    return fareOptions.find(fare => fare.type === fareType)
-  })
-  
-  const showFareDetails = (type : any) => {
-    selectedFare.value = type
-    selectedFareTab.value = type === 'business' ? 'business' : 'economy_convenience'
-  }
   </script>
   
   <script lang="ts">
