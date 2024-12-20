@@ -225,7 +225,6 @@ const remainingFields = computed(() => {
 
 // Methods
 const handleSubmit = () => {
-  title.value = form.value.title
   firstName.value = form.value.firstName
   lastName.value = form.value.lastName
   isModalOpen.value = false
