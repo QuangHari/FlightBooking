@@ -36,6 +36,14 @@
     operator: string
     economyPrice: number
     businessPrice: number
+    gender: string,
+    firstName: string,
+    lastName: string,
+    dateOfBirth: string,
+    nationality: string,
+    passportNumber: string,
+    phoneNumber: string,
+    address: string
   }
   
   const flights = ref<Flight[]>([
@@ -54,7 +62,15 @@
       aircraft: "Boeing 777-300ER",
       operator: "QAirline",
       economyPrice: 3960000,
-      businessPrice: 13290000
+      businessPrice: 13290000,
+      gender: "Male",
+      firstName: "John",
+      lastName: "Smith",
+      dateOfBirth: "1990-01-01",
+      nationality: "USA",
+      passportNumber: "08084583453",
+      phoneNumber: "47593745937457934",
+      address: "555Avengers Tower"
     },
     {
       departureTime: "09:15",
@@ -71,7 +87,15 @@
       aircraft: "Airbus A350-1000",
       operator: "QAirline",
       economyPrice: 2800000,
-      businessPrice: 9500000
+      businessPrice: 9500000,
+      gender: "Male",
+      firstName: "John",
+      lastName: "Doe",
+      dateOfBirth: "1990-01-01",
+      nationality: "UK",
+      passportNumber: "08084583453",
+      phoneNumber: "47593745937457934",
+      address: "555Avengers Tower"
     },
     {
       departureTime: "22:40",
@@ -88,7 +112,15 @@
       aircraft: "Boeing 777-300ER",
       operator: "QAirline",
       economyPrice: 4200000,
-      businessPrice: 14500000
+      businessPrice: 14500000,
+      gender: "Male",
+      firstName: "John",
+      lastName: "Nig",
+      dateOfBirth: "1990-01-01",
+      nationality: "USA",
+      passportNumber: "08084583453",
+      phoneNumber: "47593745937457934",
+      address: "555Avengers Tower"
     }
   ])
 </script>
