@@ -182,6 +182,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { PencilIcon, XIcon } from 'lucide-vue-next'
+import { emit } from 'process';
 
 const isModalOpen = ref(false)
 const firstName = ref('')
@@ -225,9 +226,13 @@ const remainingFields = computed(() => {
 
 // Methods
 const handleSubmit = () => {
+
+
   firstName.value = form.value.firstName
   lastName.value = form.value.lastName
   isModalOpen.value = false
+
+  
 }
 </script>
 

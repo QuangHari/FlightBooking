@@ -15,7 +15,7 @@
                 :plane=flightDetails.aircraft
                 :operator=flightDetails.operator
                 :flightDate=flightDetails.date
-                :price=flightDetails.businessPrice
+                :price=flightDetails.price
                 :duration=flightDetails.duration
             />
           </div>
@@ -33,7 +33,7 @@
     const route = useRoute();
     const flightDetails = route.query;
 
-
+    // console.log(flightDetails.Price);
 
  
 

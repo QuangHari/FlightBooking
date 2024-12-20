@@ -14,11 +14,7 @@
       </div>
 
       <div class="flex flex-col items-center px-2 md:px-4">
-        <img 
-          src="../../assets/MainLogo_shadow.png" 
-          alt="QAirline" 
-          class="h-6 mb-2"
-        />
+        <img src="../../assets/MainLogo_shadow.png" alt="QAirline" class="h-6 mb-2" />
         <span class="text-xs md:text-sm text-gray-600 whitespace-nowrap">Non-stop, {{ duration }}</span>
       </div>
 
@@ -29,28 +25,22 @@
     </div>
 
     <!-- Flight Details Button -->
-    <button 
-      @click="showDetails = true"
-      class="text-sm text-gray-900 hover:text-[#d0c5a4] font-medium mb-6 underline ml-auto mr-8"
-    >
+    <button @click="showDetails = true"
+      class="text-sm text-gray-900 hover:text-[#d0c5a4] font-medium mb-6 underline ml-auto mr-8">
       Flight details
     </button>
 
     <!-- Fare Options -->
     <div class="ml-auto grid grid-cols-2 gap-4">
-      <button 
-        @click="showFareDetails('economy')"
-        class="text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-      >
+      <button @click="showFareDetails('economy')"
+        class="text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
         <div class="text-sm text-gray-600 mb-1">Economy</div>
         <div class="text-lg md:text-2xl font-semibold">
           VND {{ economyPrice.toLocaleString() }}
         </div>
       </button>
-      <button 
-        @click="showFareDetails('business')"
-        class="text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-      >
+      <button @click="showFareDetails('business')"
+        class="text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
         <div class="text-sm text-gray-600 mb-1">Business</div>
         <div class="text-lg md:text-2xl font-semibold">
           VND {{ businessPrice.toLocaleString() }}
@@ -60,19 +50,13 @@
 
     <!-- Flight Details Modal -->
     <Teleport to="body">
-      <div 
-        v-if="showDetails"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-end"
-        @click.self="showDetails = false"
-      >
+      <div v-if="showDetails" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-end"
+        @click.self="showDetails = false">
         <div class="bg-white w-full max-w-md h-full overflow-y-auto">
           <!-- Modal Header -->
           <div class="flex items-center justify-between p-4 md:p-6 border-b">
             <h2 class="text-xl font-semibold">Flight details</h2>
-            <button 
-              @click="showDetails = false"
-              class="text-gray-400 hover:text-gray-600"
-            >
+            <button @click="showDetails = false" class="text-gray-400 hover:text-gray-600">
               <X class="w-6 h-6" />
             </button>
           </div>
@@ -97,11 +81,7 @@
               <!-- Flight Info -->
               <div class="mb-8 -ml-8">
                 <div class="flex items-center gap-2 mb-1">
-                  <img 
-                    src="../../assets/MainLogo_shadow.png" 
-                    alt="QAirline" 
-                    class="h-6"
-                  />
+                  <img src="../../assets/MainLogo_shadow.png" alt="QAirline" class="h-6" />
                   <span class="text-gray-900">{{ duration }}</span>
                 </div>
                 <div class="flex items-center gap-2 flex-wrap">
@@ -127,11 +107,8 @@
 
     <!-- Fare Details Modal -->
     <Teleport to="body">
-      <div 
-        v-if="selectedFare"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-        @click.self="selectedFare = null"
-      >
+      <div v-if="selectedFare" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+        @click.self="selectedFare = null">
         <div class="bg-white rounded-lg w-full max-w-xl overflow-hidden p-6">
           <div class="mb-6">
             <div v-if="getCurrentFare" class="text-sm text-gray-600">{{ getCurrentFare.flexibility }}</div>
@@ -145,29 +122,27 @@
             </div>
           </div>
 
-          <button 
-  @click="$router.push({ path: '/checkout', query: { 
-    FlightID, 
-    departureTime, 
-    arrivalTime,
-    departureAirport,
-    arrivalAirport,
-    departureCity,
-    arrivalCity,
-    departureAirportFull,
-    arrivalAirportFull,
-    duration,
-    date,
-    flightNumber,
-    aircraft,
-    operator,
-    economyPrice,
-    businessPrice
-  }})"
-  class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium"
->
-  Select fare
-</button>
+          <button @click="$router.push({
+            path: '/checkout', query: {
+              FlightID,
+              departureTime,
+              arrivalTime,
+              departureAirport,
+              arrivalAirport,
+              departureCity,
+              arrivalCity,
+              departureAirportFull,
+              arrivalAirportFull,
+              duration,
+              date,
+              flightNumber,
+              aircraft,
+              operator,
+              price: getCurrentFare?.price,
+            }
+          })" class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium">
+            Select fare
+          </button>
 
 
 
@@ -202,7 +177,7 @@ import { InfoIcon, X, Plane, Calendar, Ban, Briefcase, Luggage, Armchair, Credit
 
 // Props definition
 const props = defineProps({
-  FlightID : { type: Number, required: true},
+  FlightID: { type: Number, required: true },
   departureTime: { type: String, required: true },
   arrivalTime: { type: String, required: true },
   departureAirport: { type: String, required: true },
@@ -307,4 +282,3 @@ export default {
   name: "FlightCard",
 };
 </script>
-

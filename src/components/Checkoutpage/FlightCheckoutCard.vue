@@ -23,7 +23,7 @@
     <!-- Price Section -->
     <div class="flex justify-between items-center">
       <h2 class="text-xl">Grand total</h2>
-      <p class="text-xl font-bold">QAR {{ price.toLocaleString() }}</p>
+      <p class="text-xl font-bold">QAR {{ price }}</p>
     </div>
 
     <!-- Payment Summary Link -->
