@@ -5,11 +5,24 @@
         <h1 class="text-3xl font-bold text-gray-900 mb-8">Available Flights</h1>
         <FlightSearchBar class="mb-8" />
         <div class="grid grid-cols-1 gap-6">
-          <FlightCard
-            v-for="flight in flights"
-            :key="flight.flightNumber"
-            v-bind="flight"
-          />
+          <FlightCard v-for="flight in flights" 
+        :key="flight.FlightID" 
+        :departureTime = "flight.DepartureDateTime" 
+        :arrivalTime = "flight.ArrivalDateTime"
+        :departureAirport = "flight.OriginAirportCode"
+        :arrivalAirport = "flight.DestinationAirportCode"
+        :departureCity = "flight.OriginAirport.Location"
+        :arrivalCity = "flight.DestinationAirport.Location"
+        :departureAirportFull = "flight.OriginAirport.AirportName"
+        :arrivalAirportFull = "flight.DestinationAirport.AirportName"
+        :duration = "flight.Duration"
+        :date = "flight.Date"
+        :flightNumber = "flight.FlightNumber"
+        :aircraft = "flight.Aircraft.Name"
+        :operator = "'Airline'"
+        :economyPrice = "flight.EconomyPrice"
+        :businessPrice = "flight.BusinessPrice"
+        />
         </div>
       </div>
     </div>
@@ -22,83 +35,63 @@
   import FlightCard from '../components/Flightspage/FlightCard.vue'
   import FooterBar from '../components/shared/FooterBar.vue';
   import FlightSearchBar from '../components/Flightspage/FlightSearchBar.vue';
-  import { searchFlights } from '../api/flight';
-  interface Flight {
-    departureTime: string
-    arrivalTime: string
-    departureAirport: string
-    arrivalAirport: string
-    departureCity: string
-    arrivalCity: string
-    departureAirportFull: string
-    arrivalAirportFull: string
-    duration: string
-    date: string
-    flightNumber: string
-    aircraft: string
-    operator: string
-    economyPrice: number
-    businessPrice: number
-  }
+  import { getAllFlight,searchFlights } from '../api/flight';
+  import dayjs from 'dayjs';
+  import { useRoute } from 'vue-router'
+
+  const route = useRoute()
+  const from = route.query.from || ''
+  const to = route.query.to || ''
+  const departureDate = route.query.departureDate || ''
+
+  const formatTime = (isoString: string): string => {
+    return dayjs(isoString).format('HH:mm');
+  };
+
+
+const calculateDuration = (departure: string, arrival: string): string => {
+  const departureTime = dayjs(departure);
+  const arrivalTime = dayjs(arrival);
   
-  const flights = ref<Flight[]>([
-    {
-      departureTime: "01:20",
-      arrivalTime: "08:00",
-      departureAirport: "DOH",
-      arrivalAirport: "JFK",
-      departureCity: "Doha",
-      arrivalCity: "New York",
-      departureAirportFull: "Hamad International Airport (DOH)",
-      arrivalAirportFull: "John F Kennedy Airport (JFK)",
-      duration: "14h 40m",
-      date: "2024-12-20",
-      flightNumber: "QR703",
-      aircraft: "Boeing 777-300ER",
-      operator: "QAirline",
-      economyPrice: 3960000,
-      businessPrice: 13290000
-    },
-    {
-      departureTime: "09:15",
-      arrivalTime: "14:30",
-      departureAirport: "DOH",
-      arrivalAirport: "LHR",
-      departureCity: "Doha",
-      arrivalCity: "London",
-      departureAirportFull: "Hamad International Airport (DOH)",
-      arrivalAirportFull: "London Heathrow Airport (LHR)",
-      duration: "7h 15m",
-      date: "2024-12-21",
-      flightNumber: "QR001",
-      aircraft: "Airbus A350-1000",
-      operator: "QAirline",
-      economyPrice: 2800000,
-      businessPrice: 9500000
-    },
-    {
-      departureTime: "22:40",
-      arrivalTime: "06:10",
-      departureAirport: "DOH",
-      arrivalAirport: "SYD",
-      departureCity: "Doha",
-      arrivalCity: "Sydney",
-      departureAirportFull: "Hamad International Airport (DOH)",
-      arrivalAirportFull: "Sydney Kingsford Smith Airport (SYD)",
-      duration: "13h 30m",
-      date: "2024-12-22",
-      flightNumber: "QR908",
-      aircraft: "Boeing 777-300ER",
-      operator: "QAirline",
-      economyPrice: 4200000,
-      businessPrice: 14500000
-    }
-  ])
+  let hours = arrivalTime.diff(departureTime, 'hour');
+  let minutes = arrivalTime.diff(departureTime, 'minute') % 60;
+
+  return `${hours}h ${minutes}m`;
+};
+  interface Flight {
+  FlightID: number,
+  FlightNumber: string,
+  DepartureDateTime: string,
+  ArrivalDateTime: string,
+  OriginAirportCode: string,
+  DestinationAirportCode: string,
+  Date: string,
+  Duration: string,
+  AvailableSeats: number,
+  AircraftID: number,
+  BusinessPrice: number,
+  BusinessSeats: number,
+  EconomyPrice: number,
+  EconomySeats: number,
+  OriginAirport: any,
+  DestinationAirport: any,
+  Aircraft: any,
+  Seats: any
+}
+  const flights = ref<Flight[]>([])
 
 
   const fetchAllData = async () => {
-    const response = await searchFlights()
-    flights.value = response.data
+    const response: Flight[] = await getAllFlight(); 
+    flights.value = response.map((flight: Flight) => ({
+      ...flight,
+      Date: dayjs(flight.DepartureDateTime).format('YYYY-MM-DD'),  // Định dạng ngày khởi hành
+      Duration: calculateDuration(flight.DepartureDateTime, flight.ArrivalDateTime),  // Tính toán thời gian bay
+      DepartureDateTime: formatTime(flight.DepartureDateTime),
+      ArrivalDateTime: formatTime(flight.ArrivalDateTime),
+    }));
+
+    // const response: Flight[] = await searchFlights(from, to, departureDate);
   }
 
   onMounted(() => {

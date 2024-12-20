@@ -10,6 +10,7 @@ export interface Passenger {
   PhoneNumber: string | null;
   DateOfBirth: string | null;
   Username: string;
+  isAdmin : boolean;
 }
 
 export interface LoginResponse {

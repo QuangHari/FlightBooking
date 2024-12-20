@@ -167,8 +167,8 @@
           },
           Aircraft: {
             select: {
-              AircraftID: true, 
-              Name: true,
+              AircraftID: true,
+              Name: true,  // Đảm bảo rằng Name của Aircraft luôn được bao gồm
             },
           },
           Seats: true,

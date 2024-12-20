@@ -169,16 +169,24 @@ const handleSignIn = async () => {
     }
 
     // Nếu tất cả kiểm tra đều hợp lệ, gọi API đăng nhập
-    await authStore.login({
+    const response = await authStore.login({
       email: signInEmail.value,
       password: signInPassword.value,
     });
+    if ( response.passenger.isAdmin == true){
+      message.success("Login successful!");
+      router.push("/admin")
+    }else {
 
     // Hiển thị thông báo thành công
+    
     message.success("Login successful!");
 
     // Điều hướng đến trang chính
     router.push("/");
+    }
+
+
   } catch (error: any) {
     // Nếu đăng nhập thất bại, hiển thị lỗi
     errorMessage.value = "Invalid email or password. Please try again.";

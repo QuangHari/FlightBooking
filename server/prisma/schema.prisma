@@ -42,7 +42,7 @@ model Passenger {
   Password        String
   PhoneNumber     String?
   DateOfBirth     DateTime?
-
+  isAdmin         Boolean   @default(false)
   Booking         Booking[]
 }
 

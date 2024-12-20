@@ -12,15 +12,18 @@ interface AuthState {
     PhoneNumber: string | null;
     DateOfBirth: string | null;
     Username: string;
+    isAdmin: boolean;
   } | null;
   isAuthenticated: boolean;
+  isAdmin: boolean;
 }
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
-    accessToken:  localStorage.getItem("accessToken") || null,
+    accessToken: localStorage.getItem("accessToken") || null,
     passenger: null,
     isAuthenticated: false,
+    isAdmin: JSON.parse(localStorage.getItem("isAdmin") || "false"),
   }),
 
   actions: {
@@ -34,8 +37,10 @@ export const useAuthStore = defineStore("auth", {
         this.passenger = response.passenger;
 
         this.isAuthenticated = true;
+        this.isAdmin = response.passenger.isAdmin;
 
         localStorage.setItem("accessToken", response.token);
+        localStorage.setItem("isAdmin", JSON.stringify(response.passenger.isAdmin));
 
         return response;
       } catch (error) {
@@ -49,17 +54,16 @@ export const useAuthStore = defineStore("auth", {
       this.accessToken = null;
       this.passenger = null;
       this.isAuthenticated = false;
+      this.isAdmin = false;
 
       // Xóa token khỏi localStorage
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("isAdmin");
     },
 
     loadStoredToken() {
       return localStorage.getItem("accessToken");
-      
     }
-    
-    
   },
 
   getters: {
@@ -69,6 +73,10 @@ export const useAuthStore = defineStore("auth", {
 
     getPassengerInfo(state) {
       return state.passenger;
+    },
+
+    getIsAdmin(state): boolean {
+      return state.isAdmin;
     },
   },
 });

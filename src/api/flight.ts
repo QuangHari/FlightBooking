@@ -13,7 +13,7 @@ export interface CreateFlightInput {
   economyPrice:   number,
   economySeats: number
 }
-export const searchFlights = async (): Promise<any> => {
+export const searchFlights = async (from: string, to: string, departureDate: string): Promise<any> => {
   try {
     const response = await apiClient.get<any>("/flights/search");
     return response.data;
