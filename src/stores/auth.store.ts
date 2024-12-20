@@ -23,7 +23,9 @@ export const useAuthStore = defineStore("auth", {
     accessToken: localStorage.getItem("accessToken") || null,
     passenger: null,
     isAuthenticated: false,
-    isAdmin: JSON.parse(localStorage.getItem("isAdmin") || "false"),
+    isAdmin: localStorage.getItem("isAdmin") 
+    ? JSON.parse(localStorage.getItem("isAdmin")!) 
+    : false, // Default to false if not present
   }),
 
   actions: {
