@@ -12,6 +12,7 @@ import AdminAdvertisement from '../views/AdminAdvertisement.vue';
 import Profile from '../views/Profile.vue';
 import ProfileFlights from '../views/ProfileFlights.vue';
 import ProfileInformation from '../views/ProfileInformation.vue';
+import CheckOut from '../views/CheckOut.vue';
 
 const routes = [
   {
@@ -61,7 +62,11 @@ const routes = [
         component: ProfileFlights,
       },
     ],
-  }
+  },
+  {
+    path: '/checkout',
+    component: CheckOut,
+  },
 ];
 
 const router = createRouter({

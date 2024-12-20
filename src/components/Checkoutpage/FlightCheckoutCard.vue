@@ -1,30 +1,9 @@
 <template>
   <div class="max-w-lg mx-auto bg-white rounded-lg p-6 space-y-6 shadow-md">
     <!-- Trip Details Section -->
-    <div class="space-y-4">
+    <div class="space-y-2">
       <h1 class="text-2xl font-bold">Trip details</h1>
-      <div class="flex justify-between items-center">
-        <div class="space-y-2">
-          <label for="economyPassengers" class="block text-sm font-medium text-gray-700">Economy Passengers</label>
-          <input 
-            type="number" 
-            id="economyPassengers" 
-            v-model="economyPassengers" 
-            min="0" 
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </div>
-        <div class="space-y-2">
-          <label for="businessPassengers" class="block text-sm font-medium text-gray-700">Business Passengers</label>
-          <input 
-            type="number" 
-            id="businessPassengers" 
-            v-model="businessPassengers" 
-            min="0" 
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </div>
-      </div>
+      <p class="text-gray-600">1 Passenger</p>
     </div>
 
     <!-- Flight Route Section -->
@@ -42,27 +21,9 @@
     <div class="border-t my-4"></div>
 
     <!-- Price Section -->
-    <div class="space-y-4">
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg">Economy Price (per passenger)</h2>
-        <p class="text-lg font-medium">VND {{ economyPrice.toLocaleString() }}</p>
-      </div>
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg">Business Price (per passenger)</h2>
-        <p class="text-lg font-medium">VND {{ businessPrice.toLocaleString() }}</p>
-      </div>
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg">Economy Total</h2>
-        <p class="text-lg font-medium">VND {{ economyTotal.toLocaleString() }}</p>
-      </div>
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg">Business Total</h2>
-        <p class="text-lg font-medium">VND {{ businessTotal.toLocaleString() }}</p>
-      </div>
-      <div class="flex justify-between items-center">
-        <h2 class="text-xl font-bold">Grand Total</h2>
-        <p class="text-xl font-bold">VND {{ grandTotal.toLocaleString() }}</p>
-      </div>
+    <div class="flex justify-between items-center">
+      <h2 class="text-xl">Grand total</h2>
+      <p class="text-xl font-bold">QAR {{ price.toLocaleString() }}</p>
     </div>
 
     <!-- Payment Summary Link -->
@@ -74,10 +35,8 @@
     </button>
 
     <!-- Continue Button -->
-    <button 
-    @click="handleBooking"
-    class="w-full bg-[#4f4939] text-white py-4 rounded-full hover:bg-[#d0c5a4] transition-colors">
-      Book Now
+  <button class="w-full bg-[#4f4939] text-white py-4 rounded-full hover:bg-[#d0c5a4] transition-colors">
+      Continue
     </button>
 
     <!-- Flight Details Modal -->
@@ -115,7 +74,7 @@
               <img src="../../assets/MainLogo_shadow.png" alt="Airline Logo" class="h-6" />
               <div>
                 <p class="font-bold">{{ flightNumber }}</p>
-                <p class="text-gray-600">{{ plane }}</p>
+                <p class="text-gray-600">{{ aircraft }}</p>
                 <p class="text-gray-600">{{ operator }}</p>
               </div>
             </div>
@@ -136,15 +95,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+<script setup>
+import { ref } from 'vue'
 import { ChevronRightIcon, XIcon } from 'lucide-vue-next'
-import {createBooking} from '../../api/booking'
-import { message } from 'ant-design-vue';
-import {useAuthStore} from '../../stores/auth.store'
+
 // Props definition
 const props = defineProps({
-  FlightID : {type: Number, required: true},
   departureCity: { type: String, required: true },
   arrivalCity: { type: String, required: true },
   departureTime: { type: String, required: true },
@@ -155,55 +111,15 @@ const props = defineProps({
   plane: { type: String, required: true },
   operator: { type: String, required: true },
   flightDate: { type: Date, required: true },
-  economyPrice: { type: Number, required: true },
-  businessPrice: { type: Number, required: true },
+  price: { type: Number, required: true },
   duration: { type: String, required: true }
 })
 
-
-const passengerId = window.localStorage.getItem("passengerId");
-const passengerIdNumber = passengerId ? parseInt(passengerId, 10) : null;
 // Modal state
 const isModalOpen = ref(false)
 
-// Passenger counts
-const economyPassengers = ref(1)
-const businessPassengers = ref(0)
-
-// Computed properties for totals
-const economyTotal = computed(() => props.economyPrice * economyPassengers.value)
-const businessTotal = computed(() => props.businessPrice * businessPassengers.value)
-const grandTotal = computed(() => economyTotal.value + businessTotal.value)
-
-
-const handleBooking = async () => {
-  try {
-    if (passengerIdNumber === null) {
-      throw new Error('Passenger ID is missing');
-    }
-    // Dữ liệu booking mẫu (có thể lấy từ form hoặc dữ liệu người dùng nhập vào)
-    const bookingData = {
-      flightId: props.FlightID,
-      passengerId: passengerIdNumber,
-      paymentStatus: "Paid",
-      economySeats: economyPassengers.value,
-      businessSeats: businessPassengers.value
-    };
-   
-    const response = await createBooking(bookingData);
-    message.success("add success")
-    // Xử lý kết quả thành công
-    // console.log('Booking created:', response);
-    
-  } catch (error: any) {
-    // Xử lý lỗi
-    console.error('Error creating booking:', error.message);
-  }
-};
-
-
 // Date formatter
-const formatDate = (date: Date) => {
+const formatDate = (date) => {
   return new Intl.DateTimeFormat('en-US', {
     weekday: 'short',
     day: '2-digit',
@@ -211,18 +127,10 @@ const formatDate = (date: Date) => {
     year: 'numeric'
   }).format(date)
 }
-
-onMounted(() => {
-  // Your code here
-  console.log("detail", props)
-})
-
-
 </script>
 
-<script lang="ts">
+<script>
 export default {
   name: 'FlightCheckoutCard',
 };
 </script>
-

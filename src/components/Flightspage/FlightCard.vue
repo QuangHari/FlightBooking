@@ -146,7 +146,7 @@
           </div>
 
           <button 
-            @click="selectFare"
+            @click="$router.push('/checkout')"
             class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium"
           >
             Select fare
@@ -174,42 +174,12 @@
         </div>
       </div>
     </Teleport>
-
-    <!-- Flight Checkout Card Modal -->
-    <Teleport to="body">
-      <div 
-      v-if="showCheckout"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-      @click.self="showCheckout = false"
-      >
-      <div class="bg-white rounded-lg w-full max-w-lg overflow-hidden">
-        <FlightCheckoutCard 
-        :FlightID="FlightID"
-        :departureCity="departureCity"
-        :arrivalCity="arrivalCity"
-        :departureTime="departureTime"
-        :arrivalTime="arrivalTime"
-        :departureAirport="departureAirport"
-        :arrivalAirport="arrivalAirport"
-        :flightNumber="flightNumber"
-        :plane="aircraft"
-        :operator="operator"
-        :flightDate="new Date(date)"
-        :economyPrice="economyPrice"
-        :businessPrice="businessPrice"
-        :duration="duration"
-        @close="showCheckout = false"
-        />
-      </div>
-      </div>
-    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { InfoIcon, X, Plane, Calendar, Ban, Briefcase, Luggage, Armchair, CreditCard } from 'lucide-vue-next'
-import FlightCheckoutCard from '../Checkoutpage/FlightCheckoutCard.vue'
 
 // Props definition
 const props = defineProps({
