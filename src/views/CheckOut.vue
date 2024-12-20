@@ -3,7 +3,6 @@
           <Navbar />
           <div class="container mx-auto px-4 py-8 mt-16">
             <h1 class="text-3xl font-bold text-gray-900 mb-8">Check Out</h1>
-            <FlightSearchBar class="mb-8" />
             <CustomerDetailsCard />
             <FlightCheckoutCard
                 departureCity="Doha"
@@ -25,7 +24,6 @@
     </template>
     
     <script setup lang = "ts">
-    import FlightSearchBar from '../components/Flightspage/FlightSearchBar.vue';
     import FlightCheckoutCard from '../components/Checkoutpage/FlightCheckoutCard.vue';
     import CustomerDetailsCard from '../components/Checkoutpage/CustomerDetailsCard.vue'
     import Navbar from '../components/shared/Navbar.vue';
