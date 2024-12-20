@@ -36,7 +36,7 @@ export const useRegisStore = defineStore("regis", {
                 this.isAuthenticated = true;
 
                 localStorage.setItem("accessToken", response.token);
-
+                localStorage.setItem("passengerId", response.passenger.PassengerID.toString())
                 return response;
             } catch (error) {
                 console.error("Registration failed:", error);

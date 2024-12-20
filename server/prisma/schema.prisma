@@ -46,6 +46,7 @@ model Passenger {
   Booking         Booking[]
 }
 
+
 model Airport {
   AirportCode   String   @id
   AirportName   String
@@ -72,6 +73,19 @@ model Booking {
   BusinessPrice    Float
   EconomySeats     Int
   BusinessSeats    Int
+  CustomerFirstName     String
+  CustomerLastName     String
+  CustomerID       String   @unique
+  Gender           String
+  Age              Int
+  DateOfBirth      DateTime
+  National         String
+  PassportNumber   String
+  PhoneNumber      String
+  Address          String
+
+
+
   Flight           Flight     @relation(fields: [FlightID], references: [FlightID])
   Passenger        Passenger  @relation(fields: [PassengerID], references: [PassengerID])
   Seats            Seat[]

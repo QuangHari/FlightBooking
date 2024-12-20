@@ -7,11 +7,39 @@ export interface CreateBookingInput {
   paymentStatus: string;
   economySeats: number; 
   businessSeats: number;
+  customerFirstName: string;
+  customerLastName: string;
+  customerId: string;
+  gender: string;
+  age: number;
+  dateOfBirth: Date;
+  national: string;
+  passportNumber: string;
+  phoneNumber: string;
+  address: string;
 }
 
 export const createBooking = async (data: CreateBookingInput) => {
-  const { flightId, passengerId, paymentStatus, economySeats, businessSeats } = data;
+  const {
+    flightId,
+    passengerId,
+    paymentStatus,
+    economySeats,
+    businessSeats,
+    customerFirstName,
+    customerLastName,
+    customerId,
+    gender,
+    age,
+    dateOfBirth,
+    national,
+    passportNumber,
+    phoneNumber,
+    address,
+  } = data;
+
   logger.info(`Creating booking for flightId: ${flightId}, passengerId: ${passengerId}`);
+
   // Kiểm tra flight tồn tại
   const flight = await prisma.flight.findUnique({ where: { FlightID: flightId } });
   if (!flight) {
@@ -29,7 +57,7 @@ export const createBooking = async (data: CreateBookingInput) => {
     throw new Error('One or more selected seats are already booked or insufficient availability');
   }
 
-  // Tạo booking
+  // Tạo booking với các trường mới
   const booking = await prisma.booking.create({
     data: {
       FlightID: flightId,
@@ -39,11 +67,20 @@ export const createBooking = async (data: CreateBookingInput) => {
       BusinessSeats: businessSeats, 
       EconomyPrice: flight.EconomyPrice * economySeats,
       BusinessPrice: flight.BusinessPrice * businessSeats,
+      CustomerFirstName: customerFirstName,
+      CustomerLastName: customerLastName,
+      CustomerID: customerId,
+      Gender: gender,
+      Age: age,
+      DateOfBirth: dateOfBirth,
+      National: national,
+      PassportNumber: passportNumber,
+      PhoneNumber: phoneNumber,
+      Address: address,
     },
   });
 
-  // Cập nhật trạng thái ghế đã được đặt trực tiếp từ bảng flight (nếu cần thiết)
-  // Trong trường hợp cần cập nhật trạng thái ghế, bạn có thể thực hiện cập nhật trực tiếp như:
+  // Cập nhật trạng thái ghế đã được đặt
   await prisma.flight.update({
     where: { FlightID: flightId },
     data: {
