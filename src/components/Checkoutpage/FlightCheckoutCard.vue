@@ -13,7 +13,7 @@
     >
       <div class="space-y-1">
         <h2 class="text-xl font-bold">{{ departureCity }} to {{ arrivalCity }}</h2>
-        <p class="text-gray-600">{{ formatDate(flightDate) }}</p>
+        <p class="text-gray-600">{{ flightDate }}</p>
       </div>
       <ChevronRightIcon class="h-6 w-6 text-gray-400" />
     </div>
@@ -53,7 +53,7 @@
 
           <!-- Flight Route -->
           <h3 class="text-xl font-bold mb-2">{{ departureCity }} to {{ arrivalCity }}</h3>
-          <p class="text-gray-600 mb-6">{{ formatDate(flightDate) }}</p>
+          <p class="text-gray-600 mb-6">{{ flightDate}}</p>
 
           <!-- Timeline -->
           <div class="space-y-8 relative">

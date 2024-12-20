@@ -6,6 +6,16 @@ export const createBooking = async (bookingData: {
   paymentStatus: string;
   economySeats: number;
   businessSeats: number;
+  customerFirstName: string;
+  customerLastName: string;
+  customerId: string;
+  gender: string;
+  age: number;
+  dateOfBirth: string; // Định dạng: YYYY-MM-DD
+  national: string;
+  passportNumber: string;
+  phoneNumber: string;
+  address: string;
 }): Promise<any> => {
   try {
     const response = await apiClient.post<any>("/bookings", bookingData);

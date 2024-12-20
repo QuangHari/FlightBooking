@@ -146,11 +146,30 @@
           </div>
 
           <button 
-            @click="$router.push('/checkout')"
-            class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium"
-          >
-            Select fare
-          </button>
+  @click="$router.push({ path: '/checkout', query: { 
+    FlightID, 
+    departureTime, 
+    arrivalTime,
+    departureAirport,
+    arrivalAirport,
+    departureCity,
+    arrivalCity,
+    departureAirportFull,
+    arrivalAirportFull,
+    duration,
+    date,
+    flightNumber,
+    aircraft,
+    operator,
+    economyPrice,
+    businessPrice
+  }})"
+  class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium"
+>
+  Select fare
+</button>
+
+
 
           <div class="flex items-center gap-2 mb-6">
             <Plane class="w-5 h-5" />
