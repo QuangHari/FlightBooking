@@ -12,19 +12,6 @@
 
     <!-- Form -->
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
-      <!-- Title -->
-      <div class="space-y-2">
-        <label class="text-lg font-medium">Title</label>
-        <select 
-          v-model="form.title"
-          class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#d0c5a4] focus:border-[#d0c5a4]"
-        >
-          <option value="Mr">Mr</option>
-          <option value="Mrs">Mrs</option>
-          <option value="Ms">Ms</option>
-          <option value="Dr">Dr</option>
-        </select>
-      </div>
 
       <!-- Name Fields -->
       <div class="space-y-2">
@@ -149,7 +136,6 @@
 import { ref, onMounted, computed } from 'vue'
 
 interface FormData {
-  title: string;
   firstName: string;
   lastName: string;
   birthDay: string;
@@ -172,7 +158,6 @@ const emit = defineEmits<{
 }>()
 
 const form = ref<FormData>({
-  title: '',
   firstName: '',
   lastName: '',
   birthDay: '',
@@ -212,7 +197,6 @@ const handleSubmit = () => {
 
 const isFormValid = computed(() => {
   return (
-    form.value.title &&
     form.value.firstName &&
     form.value.lastName &&
     form.value.birthDay &&

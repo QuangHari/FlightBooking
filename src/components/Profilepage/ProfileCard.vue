@@ -20,11 +20,6 @@
     <div class="space-y-6">
       <!-- Personal Information Section -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Title -->
-        <div class="space-y-1">
-          <label class="text-sm text-gray-500">Title</label>
-          <p class="text-gray-900 font-medium">{{ profileData.title || '-' }}</p>
-        </div>
 
         <!-- First Name -->
         <div class="space-y-1">
@@ -94,7 +89,6 @@ import { ref, reactive } from 'vue'
 import CustomerDetailsCard from '../Checkoutpage/CustomerDetailsCard.vue'
 
 interface ProfileData {
-  title: string;
   firstName: string;
   lastName: string;
   birthDay: string;
@@ -108,7 +102,6 @@ interface ProfileData {
 }
 
 const profileData = reactive<ProfileData>({
-  title: '',
   firstName: '',
   lastName: '',
   birthDay: '',
