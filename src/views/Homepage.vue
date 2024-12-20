@@ -2,7 +2,7 @@
     <Navbar />
     <div>
       <div class="flex justify-center overflow-hidden">
-        <img src="../assets/bannerVIP.jpg" alt="mainbanner" class="w-full transform transition-transform duration-500 hover:scale-110" />
+        <img src="../assets/MAINBANNERVIP.PNG" alt="mainbanner" class="w-full transform transition-transform duration-500 hover:scale-110" />
       </div>
       <FlightSearch />
     </div>
@@ -10,7 +10,7 @@
       <div class="text-4xl font-light text-gray-800 mb-2">
         Start planning your next trip
       </div>
-      <div class="text-lg text-gray-600">
+      <div class="text-lg text-[#4f4939]">
         Thinking of travelling somewhere soon? Here are some options to help you get started.
       </div>
     </div>

@@ -139,7 +139,7 @@
               </p>
               <button 
                 @click="showCancellationModal = false"
-                class="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                class="px-4 py-2 bg-[#4f4939] text-white rounded-lg hover:bg-[#d0c5a4]"
               >
                 Close
               </button>

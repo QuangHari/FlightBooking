@@ -1,5 +1,9 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+  <div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
+      <source src="@/assets/FOOTAGEVIPVIP2.mov" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
     <div class="relative w-full max-w-[850px] h-[500px] bg-white rounded-[20px] shadow-lg overflow-hidden">
       <!-- Sign In Form -->
       <div class="absolute inset-0 flex transition-transform duration-500 ease-in-out"
