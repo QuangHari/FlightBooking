@@ -10,7 +10,7 @@
           <span class="text-lg font-semibold">{{ getInitial }}</span>
         </div>
         <div class="text-left">
-          <h2 class="text-xl font-semibold">{{ title || 'Adult 1' }} {{ lastName }}</h2>
+          <h2 class="text-xl font-semibold">{{ firstName || 'Adult 1' }} {{ lastName }}</h2>
           <p v-if="!isComplete" class="text-red-500">
             Please check and complete {{ remainingFields }} field(s)
           </p>
