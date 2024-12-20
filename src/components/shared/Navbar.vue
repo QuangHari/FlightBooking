@@ -42,9 +42,38 @@
             </div>
             <div class="h-8 w-px bg-gray-200 hidden sm:block"></div>
             <div class="flex items-center gap-2">
+              <template v-if="authStore.isLoggedIn">
+              <img 
+                src="../../assets/profile_icon.png" 
+                alt="Profile Icon" 
+                class="h-6 w-6 rounded-full cursor-pointer"
+                @click="toggleDropdown"
+              />
+              <div 
+                v-if="isDropdownOpen" 
+                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 top-full"
+              >
+                <a 
+                  href="#" 
+                  @click.prevent="navigateTo('/profile')"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  My Profile
+                </a>
+                <a 
+                  href="#" 
+                  @click.prevent="logout"
+                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Log Out
+                </a>
+              </div>
+            </template>
+            <template v-else>
               <a href="/author" class="text-gray-700 hover:text-[#d0c5a4] font-medium whitespace-nowrap hidden sm:block">
-              Sign in | Sign up
+                Sign in | Sign up
               </a>
+            </template>
             </div>
           </div>
         </div>
@@ -53,7 +82,53 @@
   </template>
   
   <script setup lang ="ts">  
-  const navigationItems = ['Explore', 'Book', 'Experience', 'Privilege Club']
+  import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../stores/auth.store';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const router = useRouter();
+const authStore = useAuthStore();
+
+const isLogin = ref(false);
+const isDropdownOpen = ref(false);
+
+const navigationItems = ['Explore', 'Book', 'Experience', 'Privilege Club']
+
+const navigateTo = (path: string) => {
+  router.push(path);
+  isDropdownOpen.value = false;
+};
+
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const logout = () => {
+  authStore.logout();
+  router.push('/');
+  isDropdownOpen.value = false;
+};
+
+onMounted(() => {
+  isLogin.value = authStore.isLoggedIn;
+});
+
+// Close dropdown when clicking outside
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as HTMLElement;
+  if (!target.closest('.relative')) {
+    isDropdownOpen.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
+
   </script>
 
 

@@ -69,10 +69,10 @@ export const useAuthStore = defineStore("auth", {
   },
 
   getters: {
-    isLoggedIn(state): boolean {
-      return state.isAuthenticated;
+    isLoggedIn(): boolean {
+      return localStorage.getItem("accessToken") !== null;
     },
-
+ 
     getPassengerInfo(state) {
       return state.passenger;
     },

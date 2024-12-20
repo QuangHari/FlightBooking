@@ -7,7 +7,6 @@ import Flights from '../views/Flights.vue';
 import Admin from '../views/Admin.vue';
 import AdminPlanes from '../views/AdminPlanes.vue';
 import FlightStatus from '../views/FlightStatus.vue'
-import CheckOut from '../views/CheckOut.vue';
 import AdminFlights from '../views/AdminFlights.vue';
 import AdminAdvertisement from '../views/AdminAdvertisement.vue';
 import Profile from '../views/Profile.vue';
@@ -48,10 +47,6 @@ const routes = [
   {
     path: '/status',
     component: FlightStatus,
-  },
-  {
-    path: '/checkout',
-    component: CheckOut,
   },
   {
     path: '/profile',

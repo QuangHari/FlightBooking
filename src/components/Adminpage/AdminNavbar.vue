@@ -42,9 +42,16 @@
           </div>
           <div class="h-8 w-px bg-gray-200 hidden sm:block"></div>
           <div class="flex items-center gap-2">
-            <a href="/author" class="text-gray-700 hover:text-[#d0c5a4] font-medium whitespace-nowrap hidden sm:block">
-            Sign in | Sign up
-            </a>
+            <template v-if="authStore.isLoggedIn">
+              <a class="text-gray-700 hover:text-[#d0c5a4] font-medium whitespace-nowrap hidden sm:block">
+                Log Out
+              </a>
+            </template>
+            <template v-else>
+              <a href="/author" class="text-gray-700 hover:text-[#d0c5a4] font-medium whitespace-nowrap hidden sm:block">
+              Sign in | Sign up
+              </a>
+            </template>
           </div>
         </div>
       </div>
@@ -54,9 +61,12 @@
 
 <script setup lang ="ts">  
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../stores/auth.store';
+import { onMounted, ref } from 'vue';
 
 const router = useRouter();
-
+const authStore = useAuthStore();
+const isLogin = ref(false);
 const navigationItems = [
   { name: 'Flights', path: '/admin' },
   { name: 'Planes', path: '/admin/planes' },
@@ -66,6 +76,11 @@ const navigationItems = [
 const navigateTo = (path: string) => {
   router.push(path);
 };
+
+onMounted(() => {
+    isLogin.value = authStore.isLoggedIn;
+  });
+
 </script>
 
 
