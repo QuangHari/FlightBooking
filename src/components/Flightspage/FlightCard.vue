@@ -139,6 +139,7 @@
               aircraft,
               operator,
               price: getCurrentFare?.price,
+              businessPrice:businessPrice,
             }
           })" class="w-full bg-[#4f4939] hover:bg-[#d0c5a4] text-white rounded-full py-4 mb-6 transition-colors text-lg font-medium">
             Select fare

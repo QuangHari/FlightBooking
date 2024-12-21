@@ -113,7 +113,13 @@ export const getBookingsByUserId = async (userId: number) => {
   const bookings = await prisma.booking.findMany({ 
     where: { PassengerID: userId },
     include: {
-      Flight: true,
+      Flight: {
+        include: {
+          OriginAirport: true,      
+          DestinationAirport: true,  
+          Aircraft: true,            
+        }
+      },
       Passenger: true,
     }
   });
@@ -123,4 +129,42 @@ export const getBookingsByUserId = async (userId: number) => {
   }
 
   return bookings;
+};
+
+export const cancelBooking = async (bookingId: number, userId: number) => {
+  // Kiểm tra booking có tồn tại không
+  const booking = await prisma.booking.findUnique({
+    where: { BookingID: bookingId },
+    include: {
+      Flight: true,  // Cần lấy thông tin về chuyến bay để cập nhật lại ghế
+    },
+  });
+
+  if (!booking) {
+    throw new Error('Booking not found');
+  }
+
+  // Kiểm tra booking này có thuộc về userId không
+  if (booking.PassengerID !== userId) {
+    throw new Error('You are not authorized to cancel this booking');
+  }
+
+  // Trả lại ghế cho chuyến bay
+  await prisma.flight.update({
+    where: { FlightID: booking.FlightID },
+    data: {
+      EconomySeats: booking.Flight.EconomySeats + booking.EconomySeats,
+      BusinessSeats: booking.Flight.BusinessSeats + booking.BusinessSeats,
+    },
+  });
+
+  // Cập nhật trạng thái booking thành "Cancelled" hoặc xóa booking nếu cần
+  const cancelledBooking = await prisma.booking.update({
+    where: { BookingID: bookingId },
+    data: {
+      PaymentStatus: 'Cancelled', // Có thể đổi trạng thái nếu cần
+    },
+  });
+
+  return cancelledBooking;
 };

@@ -34,3 +34,15 @@ export const getAllBookingByUserId = async (userId: number): Promise<any> => {
       throw new Error(`An error occurred while fetching bookings for user ${userId}`);
     }
   };
+
+
+  export const cancelBooking = async (bookingId: number, userId: number): Promise<any> => {
+    try {
+      const response = await apiClient.delete<any>(`/bookings/cancel`, {
+        data: { bookingId, userId }
+      });
+      return response.data;
+    } catch (error: any) {
+      throw new Error(`An error occurred while canceling booking: ${error.message}`);
+    }
+  };

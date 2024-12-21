@@ -6,7 +6,7 @@
           <div class="flex-1 min-w-[180px]">
             <div class="relative">
               <input 
-                v-model="form.from"
+                v-model="flightNumber"
                 type="text" 
                 class="w-full p-2 text-sm bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d0c5a4]"
                 placeholder="From / Flight number"
@@ -80,7 +80,7 @@
   import '@vuepic/vue-datepicker/dist/main.css'
   import { Plane, CalendarDays } from 'lucide-vue-next'
   import StatusCard from './StatusCard.vue'
-
+  import {getFlightByFlightNumber} from '../../api/flight'
   
   const form = reactive({
     from: '',
@@ -91,8 +91,8 @@
   interface SearchResult {
     flightNumber: string;
     status: string;
-    departureDateTime: Date;
-    arrivalDateTime: Date;
+    departureDateTime: string;
+    arrivalDateTime: string;
     departureCity: string;
     departureCode: string;
     departureAirport: string;
@@ -113,22 +113,41 @@
       month: 'long'
     })
   }
-  
-  const handleSearch = () => {
+  const flightNumber = ref('')
+  const handleSearch = async () => {
     // Giả lập kết quả trả về từ API
+    const response = await getFlightByFlightNumber(flightNumber.value);
+    const currentDateTime = new Date();
+
+    // So sánh thời gian hiện tại với departureDateTime và arrivalDateTime
+    let status = '';
+
+    // Chuyển đổi departureDateTime và arrivalDateTime từ chuỗi thành đối tượng Date
+    const departureDateTime = new Date(response.DepartureDateTime);
+    const arrivalDateTime = new Date(response.ArrivalDateTime);
+
+    if (currentDateTime < departureDateTime) {
+      status = 'Scheduled'; // Chuyến bay chưa khởi hành
+    } else if (currentDateTime >= departureDateTime && currentDateTime <= arrivalDateTime) {
+      status = 'On going'; // Chuyến bay đang diễn ra
+    } else if (currentDateTime > arrivalDateTime) {
+      status = 'Landed'; // Chuyến bay đã hạ cánh
+    }
+    
     searchResult.value = {
-      flightNumber: 'QR703',
-      status: 'Scheduled',
-      departureDateTime: new Date('2024-12-20T01:20:00'),
-      arrivalDateTime: new Date('2024-12-20T08:00:00'),
-      departureCity: 'Doha',
-      departureCode: 'DOH',
-      departureAirport: 'Hamad International Airport',
-      departureCountry: 'Qatar',
-      arrivalCity: 'New York',
-      arrivalCode: 'JFK',
-      arrivalAirport: 'John F Kennedy Airport',
-      arrivalCountry: 'United States of America',
+      flightNumber: response.FlightNumber,
+      status: status,
+      departureDateTime: response.DepartureDateTime,
+      arrivalDateTime: response.ArrivalDateTime,
+      departureCity: response.OriginAirport.Location,      
+      departureCode: response.OriginAirport.AirportCode,
+      departureAirport: response.OriginAirport.AirportName,
+      departureCountry: 'Vietnam',
+      arrivalCity: response.DestinationAirport.Location,
+
+      arrivalCode: response.DestinationAirport.AirportCode,
+      arrivalAirport: response.DestinationAirport.AirportName,
+      arrivalCountry: 'Vietnam',
       progressPercentage: 0
     }
   }

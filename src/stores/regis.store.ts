@@ -32,7 +32,7 @@ export const useRegisStore = defineStore("regis", {
                 this.accessToken = response.token;
 
                 this.passenger = response.passenger;
-
+                
                 this.isAuthenticated = true;
                 localStorage.setItem("passengerId", response.passenger.PassengerID.toString())
 

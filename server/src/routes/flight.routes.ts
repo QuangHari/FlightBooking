@@ -1,5 +1,5 @@
 import express from 'express';
-import { createFlight, getFlightById, searchFlights ,getAllFlights} from '../services/flight.service';
+import { createFlight, getFlightByFlightNumber, searchFlights ,getAllFlights , updateFlightSchedule} from '../services/flight.service';
 import logger from '../utils/winston';
 
 const router = express.Router();
@@ -42,15 +42,16 @@ router.post('/', async (req, res) => {
 });
 
 // Endpoint để lấy thông tin flight theo ID
-router.get('/id/:id', async (req, res) => {
+router.get('/number/:flightNumber', async (req, res) => {
   try {
-    const flightId = parseInt(req.params.id, 10);
-    const flight = await getFlightById(flightId);
+    const { flightNumber } = req.params;  // Lấy flightNumber từ params
+    const flight = await getFlightByFlightNumber(flightNumber);  // Gọi service tìm flight theo flightNumber
     res.status(200).json(flight);
   } catch (error) {
     res.status(404).json({ error: (error as Error).message });
   }
 });
+
 
 
 router.get('/', async (req, res) => {
@@ -77,6 +78,28 @@ router.post('/search', async (req, res) => {
     res.status(200).json(flights);
   } catch (error) {
     logger.error(`Error searching flights: ${(error as Error).message}`);
+    res.status(400).json({ error: (error as Error).message });
+  }
+
+});
+router.put('/update-schedule', async (req, res) => {
+  try {
+    const { flightId, newDepartureDateTime, newArrivalDateTime } = req.body;
+
+    if (!flightId || !newDepartureDateTime || !newArrivalDateTime) {
+      res.status(400).json({ error: 'Missing required fields: flightId, newDepartureDateTime, newArrivalDateTime' });
+      return;
+    }
+
+    const updatedFlight = await updateFlightSchedule({
+      flightId,
+      newDepartureDateTime: new Date(newDepartureDateTime),
+      newArrivalDateTime: new Date(newArrivalDateTime),
+    });
+
+    res.status(200).json(updatedFlight);
+  } catch (error) {
+    logger.error(`Error updating flight schedule: ${(error as Error).message}`);
     res.status(400).json({ error: (error as Error).message });
   }
 });

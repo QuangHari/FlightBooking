@@ -35,7 +35,8 @@
     </button>
 
     <!-- Continue Button -->
-  <button class="w-full bg-[#4f4939] text-white py-4 rounded-full hover:bg-[#d0c5a4] transition-colors">
+  <button @click = "handleSubmit"
+  class="w-full bg-[#4f4939] text-white py-4 rounded-full hover:bg-[#d0c5a4] transition-colors">
       Continue
     </button>
 
@@ -98,9 +99,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ChevronRightIcon, XIcon } from 'lucide-vue-next'
+import {createBooking} from '../../api/booking'
+import { message } from 'ant-design-vue';
 
+const passengerId = Number(localStorage.getItem('passengerId'))
 // Props definition
-defineProps({
+const props = defineProps({
+  flightId: { type: String, required: true },
   departureCity: { type: String, required: true },
   arrivalCity: { type: String, required: true },
   departureTime: { type: String, required: true },
@@ -112,12 +117,50 @@ defineProps({
   operator: { type: String, required: true },
   flightDate: { type: String, required: true },
   price: { type: String, required: true },
-  duration: { type: String, required: true }
+  duration: { type: String, required: true },
+  firstname : { type: String, required: true },
+  lastname : { type: String, required: true },
+  phoneNumber   : { type: String, required: true },
+  gender : { type: String, required: true },
+  address : { type: String, required: true },
+  customerId : { type: String, required: true },
+  nationality : { type: String, required: true },
+  businessPrice : { type: String, required: true }
 })
 
 // Modal state
 const isModalOpen = ref(false)
+const handleSubmit = async () =>{
+  const numberBusiness = (props.businessPrice == props.price) ? 1 : 0
+  const data = {
+    flightId: Number(props.flightId),
+    passengerId: passengerId,
+    paymentStatus: "unpaid",
+    economySeats:numberBusiness,
+    businessSeats: 1 - numberBusiness,
+    customerFirstName: props.firstname,
+    customerLastName: props.lastname,
+    customerId: props.customerId,
+    gender: props.gender,
+    passportNumber : props.customerId,
+    age: 12,
+    dateOfBirth: '2024-12-21T16:37:03.669Z',
+    national: props.nationality,
+    phoneNumber:  props.phoneNumber,
+    address: props.address
+  }
+  console.log("props:" , data)
 
+  try {
+    const response = await createBooking(data);
+    console.log("response:" , response);
+    isModalOpen.value = false;
+    message.success('Booking created successfully!');
+  } catch (error) {
+    console.error('Error creating booking:', error);
+  }
+
+}
 
 </script>
 

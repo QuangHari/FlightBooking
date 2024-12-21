@@ -63,11 +63,11 @@
       required: true
     },
     departureDateTime: {
-      type: Date,
+      type: String,
       required: true
     },
     arrivalDateTime: {
-      type: Date,
+      type: String,
       required: true
     },
     departureCity: {

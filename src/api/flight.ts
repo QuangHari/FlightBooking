@@ -44,3 +44,26 @@ export const createFlight = async (flight: CreateFlightInput): Promise<any> => {
     throw new Error("An error occurred while creating flight");
   }
 }
+
+export interface UpdateFlightScheduleInput {
+  flightId: number;
+  newDepartureDateTime: string;
+  newArrivalDateTime: string;
+}
+
+export const updateFlightSchedule = async (data: UpdateFlightScheduleInput): Promise<any> => {
+  try {
+    const response = await apiClient.put<any>("/flights/update-schedule", data);
+    return response.data;
+  } catch (error: any) {
+    throw new Error("An error occurred while updating flight schedule");
+  }
+}
+export const getFlightByFlightNumber = async (flightNumber: string): Promise<any> => {
+  try {
+    const response = await apiClient.get<any>(`/flights/number/${flightNumber}`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error("An error occurred while fetching flight by flight number");
+  }
+}

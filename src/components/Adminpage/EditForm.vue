@@ -111,8 +111,9 @@ import { ref, reactive, defineProps, onMounted, onUnmounted } from 'vue'
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { CheckCircle } from 'lucide-vue-next'
-
+  import {updateFlightSchedule} from '../../api/flight'
 const props = defineProps({
+  flightId :{ Number, required: true },
   flightNumber: {
     type: String,
     default: ''
@@ -141,15 +142,18 @@ const hideFlightDropdown = () => {
     showFlightDropdown.value = false
   }, 100)
 }
-
+const emit = defineEmits(['flight-edited'])
 const handleSubmit = async () => {
   try {
     isSubmitting.value = true
     
-    // Here you would typically make an API call to save the flight
-    await new Promise(resolve => setTimeout(resolve, 1000)) // Simulated API call
-    
-    console.log('Submitted flight:', form)
+    const data = {
+        flightId : Number(props.flightId),
+        newDepartureDateTime : form.departureDateTime,
+        newArrivalDateTime :  form.arrivalDateTime,
+      };
+    await updateFlightSchedule(data);
+    emit('flight-edited')
     showSuccess.value = true
     resetForm()
   } catch (error) {

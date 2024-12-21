@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { createBooking, getBookingById, getBookingsByUserId } from '../services/booking.service';
+import { createBooking, getBookingById, getBookingsByUserId,cancelBooking } from '../services/booking.service';
 import logger from '../utils/winston';
 
 const router = express.Router();
@@ -91,6 +91,25 @@ router.post('/user', async (req: Request, res: Response) => {
   } catch (error: any) {
     logger.error(`Error fetching bookings for user ${userId}: ${error.message}`);
     res.status(404).json({ message: error.message });
+  }
+});
+
+
+
+// Route hủy booking
+router.delete('/cancel', async (req: Request, res: Response) => {
+  const { bookingId, userId } = req.body;
+
+  logger.info(`Cancelling booking with ID: ${bookingId} for userId: ${userId}`);
+
+  try {
+    // Gọi hàm hủy booking từ service
+    const cancelledBooking = await cancelBooking(Number(bookingId), Number(userId));
+
+    res.status(200).json(cancelledBooking);
+  } catch (error: any) {
+    logger.error(`Error cancelling booking: ${error.message}`);
+    res.status(400).json({ message: error.message });
   }
 });
 

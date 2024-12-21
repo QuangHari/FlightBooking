@@ -131,7 +131,10 @@
           @click.self="showEditForm = false"
         >
           <div class="bg-white w-full max-w-3xl rounded-lg overflow-hidden">
-            <EditForm @close="showEditForm = false" :flightNumber="flightNumber" />
+            <EditForm 
+            @flight-edited="handleFlightUpdated"
+            :flightId="props.flighId"
+            @close="showEditForm = false" :flightNumber="flightNumber" />
           </div>
         </div>
       </Teleport>
@@ -145,6 +148,7 @@
   
   // Props definition
   const props = defineProps({
+    flighId : { type: Number, required: true },
     departureTime: { type: String, required: true },
     arrivalTime: { type: String, required: true },
     departureAirport: { type: String, required: true },
@@ -165,7 +169,11 @@
   // Modal states
   const showDetails = ref(false)
   const showEditForm = ref(false)
-
+  const emit = defineEmits(['flight-updated'])
+  const handleFlightUpdated = () => {
+    console.log('Flight updated');
+    emit('flight-updated')
+  }
   // Computed date format
   const formattedDate = computed(() => {
     return new Date(props.date).toLocaleDateString('en-US', {

@@ -12,6 +12,7 @@
       <div class="grid grid-cols-1 gap-6">
         <AdminFlightCard v-for="flight in flights" 
         :key="flight.FlightID" 
+        :flighId = "flight.FlightID"
         :departureTime = "flight.DepartureDateTime" 
         :arrivalTime = "flight.ArrivalDateTime"
         :departureAirport = "flight.OriginAirportCode"
@@ -27,6 +28,7 @@
         :operator = "'Airline'"
         :economyPrice = "flight.EconomyPrice"
         :businessPrice = "flight.BusinessPrice"
+        @flight-updated="handleFlightAdded"
         />
       </div>
     </div>

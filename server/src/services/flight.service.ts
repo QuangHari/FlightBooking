@@ -82,12 +82,12 @@
     }
   };
 
-  export const getFlightById = async (flightId: number) => {
-    logger.info(`Fetching flight details for FlightID: ${flightId}`);
+  export const getFlightByFlightNumber = async (flightNumber: string) => {
+    logger.info(`Fetching flight details for FlightNumber: ${flightNumber}`);
 
     try {
       const flight = await prisma.flight.findUnique({
-        where: { FlightID: flightId },
+        where: { FlightNumber: flightNumber },  // Thay thế bằng FlightNumber
         include: {
           OriginAirport: true,
           DestinationAirport: true,
@@ -96,17 +96,18 @@
       });
 
       if (!flight) {
-        logger.error(`Flight not found: FlightID ${flightId}`);
+        logger.error(`Flight not found: FlightNumber ${flightNumber}`);
         throw new Error('Flight not found');
       }
 
-      logger.info('Flight details retrieved successfully', { flightID: flightId });
+      logger.info('Flight details retrieved successfully', { flightNumber: flightNumber });
       return flight;
     } catch (error) {
-      logger.error('Error fetching flight details', { flightID: flightId, error: (error as Error).message });
+      logger.error('Error fetching flight details', { flightNumber: flightNumber, error: (error as Error).message });
       throw error;
     }
-  };
+};
+
 
   export interface SearchFlightInput {
       origin: string;
@@ -211,3 +212,51 @@
     }
   };
   
+
+
+  export interface UpdateFlightScheduleInput {
+    flightId: number;
+    newDepartureDateTime: Date;
+    newArrivalDateTime: Date;
+  }
+  
+  export const updateFlightSchedule = async (data: UpdateFlightScheduleInput) => {
+    const { flightId, newDepartureDateTime, newArrivalDateTime } = data;
+  
+    logger.info(`Attempting to update flight schedule for FlightID: ${flightId}`, {
+      newDepartureDateTime,
+      newArrivalDateTime,
+    });
+  
+    if (newDepartureDateTime >= newArrivalDateTime) {
+      logger.error('Invalid date range', { newDepartureDateTime, newArrivalDateTime });
+      throw new Error('Departure time must be earlier than arrival time');
+    }
+  
+    try {
+      // Tìm chuyến bay theo ID
+      const flight = await prisma.flight.findUnique({
+        where: { FlightID: flightId },
+      });
+  
+      if (!flight) {
+        logger.error(`Flight not found: FlightID ${flightId}`);
+        throw new Error('Flight not found');
+      }
+  
+      // Cập nhật thông tin giờ của chuyến bay
+      const updatedFlight = await prisma.flight.update({
+        where: { FlightID: flightId },
+        data: {
+          DepartureDateTime: newDepartureDateTime,
+          ArrivalDateTime: newArrivalDateTime,
+        },
+      });
+  
+      logger.info('Flight schedule updated successfully', { flightID: updatedFlight.FlightID });
+      return updatedFlight;
+    } catch (error) {
+      logger.error('Error updating flight schedule', { error: (error as Error).message });
+      throw error;
+    }
+  };

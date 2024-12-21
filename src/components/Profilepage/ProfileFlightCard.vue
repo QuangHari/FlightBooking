@@ -9,7 +9,7 @@
     <!-- Flight Times and Route -->
     <div class="flex items-center justify-between mb-6 ml-9 self-center">
       <div class="space-y-1">
-        <div class="text-2xl md:text-4xl font-light">{{ departureTime }}</div>
+        <div class="text-2xl md:text-4xl font-light">{{ formatTime(departureTime )}}</div>
         <div class="text-sm text-gray-600">{{ departureAirport }}</div>
       </div>
 
@@ -19,11 +19,11 @@
           alt="QAirline" 
           class="h-6 mb-2"
         />
-        <span class="text-xs md:text-sm text-gray-600 whitespace-nowrap">Non-stop, {{ duration }}</span>
+        <span class="text-xs md:text-sm text-gray-600 whitespace-nowrap">Non-stop</span>
       </div>
 
       <div class="space-y-1">
-        <div class="text-2xl md:text-4xl font-light">{{ arrivalTime }}</div>
+        <div class="text-2xl md:text-4xl font-light">{{ formatTime(arrivalTime) }}</div>
         <div class="text-sm text-gray-600">{{ arrivalAirport }}</div>
       </div>
     </div>
@@ -76,7 +76,7 @@
               <!-- Departure -->
               <div class="mb-8 relative">
                 <div class="absolute -left-[41px] top-0 w-5 h-5 bg-white border-4 border-[#4f4939] rounded-full"></div>
-                <div class="text-lg font-medium">{{ departureTime }}</div>
+                <div class="text-lg font-medium">{{ formatTime(departureTime) }}</div>
                 <div class="font-medium">{{ departureCity }}</div>
                 <div class="text-gray-600">{{ departureAirportFull }}</div>
               </div>
@@ -89,7 +89,7 @@
                     alt="QAirline" 
                     class="h-6"
                   />
-                  <span class="text-gray-900">{{ duration }}</span>
+                  
                 </div>
                 <div class="flex items-center gap-2 flex-wrap">
                   <span class="font-medium">{{ flightNumber }}</span>
@@ -102,7 +102,7 @@
               <!-- Arrival -->
               <div class="relative">
                 <div class="absolute -left-[41px] top-0 w-5 h-5 bg-white border-4 border-[#4f4939] rounded-full"></div>
-                <div class="text-lg font-medium">{{ arrivalTime }}</div>
+                <div class="text-lg font-medium">{{ formatTime(arrivalTime) }}</div>
                 <div class="font-medium">{{ arrivalCity }}</div>
                 <div class="text-gray-600">{{ arrivalAirportFull }}</div>
               </div>
@@ -182,10 +182,7 @@
               <label class="text-sm text-gray-600">Name</label>
               <p class="font-medium">{{ firstName }} {{ lastName }}</p>
             </div>
-            <div>
-              <label class="text-sm text-gray-600">Date of birth</label>
-              <p class="font-medium">{{ dateOfBirth }}</p>
-            </div>
+            
             <div>
               <label class="text-sm text-gray-600">Nationality</label>
               <p class="font-medium">{{ nationality }}</p>
@@ -212,9 +209,16 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { InfoIcon, X, CheckCircle, XCircle } from 'lucide-vue-next'
+import dayjs from 'dayjs';
+import {cancelBooking} from '../../api/booking'
+
+const formatTime = (isoString: string): string => {
+  return dayjs(isoString).format('HH:mm');
+};
 
 // Props definition
 const props = defineProps({
+  bookingId : { type: Number, required: true },
   departureTime: { type: String, required: true },
   arrivalTime: { type: String, required: true },
   departureAirport: { type: String, required: true },
@@ -255,18 +259,37 @@ const formattedDate = computed(() => {
   })
 })
 
-const handleCancellation = () => {
-  const departureDate = new Date(props.date + ' ' + props.departureTime)
-  const currentDate = new Date()
-  const hoursDifference = (departureDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60)
+const emit = defineEmits(['booking-cancelled'])
+  const passengerId = Number(localStorage.getItem("passengerId"))
+const handleCancellation = async () => {
+  const departureDate = new Date(props.departureTime);
+  const currentDate = new Date();
+  const hoursDifference = (departureDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60);
 
-  canCancel.value = hoursDifference > 12
-  cancellationMessage.value = canCancel.value
-    ? 'Your flight has been successfully cancelled. A refund will be processed within 5-7 business days.'
-    : 'Flights cannot be cancelled within 12 hours of departure. Please contact customer service for assistance.'
+  // Kiểm tra nếu có thể hủy
+  canCancel.value = hoursDifference > 12;
+
+  if (canCancel.value) {
+    try {
+      // Gọi API hủy booking
+      await cancelBooking(props.bookingId, passengerId);
+      cancellationMessage.value = 'Your flight has been successfully cancelled. A refund will be processed within 5-7 business days.';
+      
+    
+    } catch (error) {
+      cancellationMessage.value = 'An error occurred while cancelling your booking. Please try again later.';
+    }
+  } else {
+    cancellationMessage.value = 'Flights cannot be cancelled within 12 hours of departure. Please contact customer service for assistance.';
+  }
+
+  // Hiển thị modal thông báo
   
-  showCancellationModal.value = true
-}
+  showCancellationModal.value = true;
+  setTimeout(() => {
+        emit('booking-cancelled', props.bookingId);
+      }, 5000); // 5000 ms = 5 seconds
+};
 </script>
 
 <script lang="ts">
